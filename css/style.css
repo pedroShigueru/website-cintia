@@ -39,6 +39,7 @@ ul, ol { list-style: none; }
 button, input { font: inherit; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .hero :focus-visible, .section--dark :focus-visible, .contato__box :focus-visible { outline-color: var(--gold-soft); }
+.site-header:not(.is-scrolled) :focus-visible { outline-color: var(--gold-soft); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
