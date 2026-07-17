@@ -213,3 +213,54 @@ h1, h2, h3 {
 .sobre__stats { display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 2rem; }
 .sobre__stats strong { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--teal); }
 .sobre__stats span { font-size: .9rem; color: var(--ink-soft); }
+
+/* ===== Antes e Depois ===== */
+.casos-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(420px, 82vw);
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+}
+.casos-track > * { scroll-snap-align: center; }
+.compare {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.compare img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+.compare__after {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 var(--pos));
+}
+.compare::after { /* linha divisória */
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 2.6rem;
+  left: var(--pos);
+  width: 3px;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .35);
+  pointer-events: none;
+}
+.compare__range {
+  position: absolute;
+  inset: 0 0 2.6rem 0;
+  width: 100%;
+  height: auto;
+  opacity: 0;      /* invisível, mas arrastável e focável */
+  cursor: ew-resize;
+}
+.compare figcaption {
+  padding: .7rem 1rem;
+  background: var(--surface);
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--teal);
+}

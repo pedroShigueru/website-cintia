@@ -27,3 +27,11 @@ if (video) {
     video.play().catch(() => {}); // autoplay bloqueado não é erro
   }
 }
+
+// ===== Comparador antes/depois =====
+document.querySelectorAll(".compare").forEach((fig) => {
+  const range = fig.querySelector(".compare__range");
+  range.addEventListener("input", () =>
+    fig.style.setProperty("--pos", range.value + "%")
+  );
+});
