@@ -203,12 +203,12 @@ h1, h2, h3 {
   align-items: center;
 }
 @media (max-width: 860px) { .sobre__grid { grid-template-columns: 1fr; } }
-.sobre__foto img {
+.sobre__foto {
   border-radius: var(--radius);
+  overflow: hidden; /* contém o parallax da foto */
   box-shadow: var(--shadow-md);
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
 }
+.sobre__foto img { aspect-ratio: 4 / 5; object-fit: cover; }
 .sobre__texto h2 { font-size: clamp(1.9rem, 4vw, 2.75rem); }
 .sobre__cro { margin: .75rem 0 1.25rem; font-size: .92rem; font-weight: 600; color: var(--gold); }
 .sobre__texto > p:not(.sobre__cro) { color: var(--ink-soft); max-width: 54ch; }
@@ -380,10 +380,56 @@ h1, h2, h3 {
 
 /* ===== Reveal on scroll ===== */
 @media (prefers-reduced-motion: no-preference) {
-  .reveal {
+  .js .reveal {
     opacity: 0;
     translate: 0 28px;
     transition: opacity .7s ease, translate .7s ease;
   }
-  .reveal.is-visible { opacity: 1; translate: 0 0; }
+  .js .reveal.is-visible { opacity: 1; translate: 0 0; }
+}
+
+/* ===== Tilt 3D (imagens das especialidades, JS define --rx/--ry) ===== */
+.cards-2 .card { perspective: 900px; }
+.cards-2 .card > img {
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--tz, 1));
+  transition: transform .25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cards-2 .card:hover > img { --tz: 1.06; } /* zoom cobre as bordas durante o tilt */
+
+/* ===== Scroll-driven (apresentação de produto) =====
+   Progressive enhancement: sem suporte a animation-timeline, tudo fica estático. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Hero: o vídeo aproxima e o texto sobe/esvanece conforme o scroll (scrubbed) */
+    .hero__video {
+      animation: hero-zoom linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 100vh;
+    }
+    .hero__content {
+      animation: hero-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 85vh;
+    }
+    /* Imagens dos cards: zoom-out conduzido pela entrada no viewport */
+    .cards-2 .card > img {
+      animation: img-zoom linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    /* Foto da Dra.: parallax sutil dentro da moldura */
+    .sobre__foto img {
+      scale: 1.15;
+      animation: foto-parallax linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+@keyframes hero-zoom { to { scale: 1.15; } }
+@keyframes hero-lift { to { translate: 0 -5rem; opacity: 0; } }
+@keyframes img-zoom { from { scale: 1.16; } }
+@keyframes foto-parallax {
+  from { translate: 0 -5%; }
+  to { translate: 0 5%; }
 }

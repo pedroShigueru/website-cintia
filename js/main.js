@@ -28,6 +28,26 @@ if (video) {
   }
 }
 
+// ===== Tilt 3D nas imagens das especialidades =====
+if (
+  matchMedia("(hover: hover) and (pointer: fine)").matches &&
+  !matchMedia("(prefers-reduced-motion: reduce)").matches
+) {
+  document.querySelectorAll(".cards-2 .card > img").forEach((img) => {
+    img.addEventListener("pointermove", (e) => {
+      const r = img.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;  // -0.5 … 0.5
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      img.style.setProperty("--ry", (x * 10).toFixed(2) + "deg");
+      img.style.setProperty("--rx", (-y * 8).toFixed(2) + "deg");
+    });
+    img.addEventListener("pointerleave", () => {
+      img.style.setProperty("--ry", "0deg");
+      img.style.setProperty("--rx", "0deg");
+    });
+  });
+}
+
 // ===== Comparador antes/depois =====
 document.querySelectorAll(".compare").forEach((fig) => {
   const range = fig.querySelector(".compare__range");
@@ -37,6 +57,7 @@ document.querySelectorAll(".compare").forEach((fig) => {
 });
 
 // ===== Reveal on scroll =====
+document.documentElement.classList.add("js"); // sem JS, .reveal fica visível
 const io = new IntersectionObserver(
   (entries) => {
     entries.forEach((e) => {
