@@ -167,3 +167,49 @@ h1, h2, h3 {
 .hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
 .btn--light { color: #fff; }
 .btn--light:hover { background: #fff; color: var(--teal); }
+
+/* ===== Cards de especialidades ===== */
+.cards-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+@media (max-width: 860px) { .cards-2 { grid-template-columns: 1fr; } }
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.card > img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+.card__body { padding: 2rem; display: grid; gap: 1rem; justify-items: start; }
+.card__body h3 { font-size: 1.5rem; }
+.card__body p { color: var(--ink-soft); }
+.checklist { display: grid; gap: .5rem; }
+.checklist li { padding-left: 1.6rem; position: relative; color: var(--ink-soft); }
+.checklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ===== Sobre ===== */
+.sobre__grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+@media (max-width: 860px) { .sobre__grid { grid-template-columns: 1fr; } }
+.sobre__foto img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+.sobre__texto h2 { font-size: clamp(1.9rem, 4vw, 2.75rem); }
+.sobre__cro { margin: .75rem 0 1.25rem; font-size: .92rem; font-weight: 600; color: var(--gold); }
+.sobre__texto > p:not(.sobre__cro) { color: var(--ink-soft); max-width: 54ch; }
+.sobre__stats { display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 2rem; }
+.sobre__stats strong { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--teal); }
+.sobre__stats span { font-size: .9rem; color: var(--ink-soft); }
