@@ -7,7 +7,7 @@
   --teal: #0E4F4F;
   --teal-deep: #0A3B3B;
   --sand: #EFE7D8;
-  --gold: #8A6A2F;
+  --gold: #7E602A;
   --gold-soft: #D9B87C;
   --whatsapp: #1EBE5D;
   --whatsapp-bright: #2BD46B;
@@ -38,6 +38,7 @@ a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
 button, input { font: inherit; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.hero :focus-visible, .section--dark :focus-visible, .contato__box :focus-visible { outline-color: var(--gold-soft); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -243,7 +244,7 @@ h1, h2, h3 {
   content: "";
   position: absolute;
   top: 0;
-  bottom: 2.6rem;
+  bottom: 2.9rem;
   left: var(--pos);
   width: 3px;
   background: #fff;
@@ -252,7 +253,7 @@ h1, h2, h3 {
 }
 .compare__range {
   position: absolute;
-  inset: 0 0 2.6rem 0;
+  inset: 0 0 2.9rem 0;
   width: 100%;
   height: auto;
   opacity: 0;      /* invisível, mas arrastável e focável */
@@ -369,7 +370,7 @@ h1, h2, h3 {
   height: 3.6rem;
   border-radius: 50%;
   background: var(--whatsapp);
-  color: #fff;
+  color: var(--ink);
   box-shadow: 0 8px 24px rgba(30, 190, 93, .45);
   transition: transform .2s ease;
 }

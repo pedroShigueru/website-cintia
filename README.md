@@ -21,3 +21,4 @@ Ao trocar, atualizar as extensões nos `src` do `index.html` e rodar `python too
 - [ ] Buscar `TROCAR` no `index.html` e substituir tudo (CRO, endereço, Instagram, convênios, stats)
 - [ ] Depoimentos reais com autorização por escrito (exigência CFO/LGPD)
 - [ ] Comprimir o vídeo (ex.: HandBrake, preset Web) para ≤3MB
+- [ ] (Opcional) Se as fotos reais forem maiores que 800px, gerar variantes menores e usar `srcset`/`sizes` nos `<img>`
