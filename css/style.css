@@ -235,7 +235,8 @@ h1, h2, h3 {
 .compare img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
 .compare__after {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   clip-path: inset(0 0 0 var(--pos));
 }
 .compare::after { /* linha divisória */
@@ -263,4 +264,8 @@ h1, h2, h3 {
   font-size: .9rem;
   font-weight: 600;
   color: var(--teal);
+}
+.compare:has(.compare__range:focus-visible) {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
 }
