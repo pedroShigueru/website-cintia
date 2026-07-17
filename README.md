@@ -4,14 +4,16 @@ Site estático: `index.html` + `css/style.css` + `js/main.js`. Sem build. Para r
 
 ## Trocando os placeholders pelos arquivos reais
 
+Os arquivos atuais em `assets/` são **fotos/vídeo de banco (Pexels, licença livre)** — servem só para o site não ficar com quadrados cinzas. Antes de publicar, trocar TODOS pelos arquivos reais:
+
 | Placeholder | Trocar por | Formato recomendado |
 |---|---|---|
-| `assets/hero.mp4` (não existe ainda) | vídeo do consultório/sorrisos | MP4 H.264, 1920x1080, 10–20s, **max 3MB**, sem áudio |
-| `assets/hero-poster.svg` | frame do vídeo | WebP 1920x1080, ~100KB (atualizar `poster` no HTML) |
-| `assets/dra.svg` | foto profissional da Dra. | WebP 800x1000 |
-| `assets/implantes.svg`, `assets/invisalign.svg` | fotos dos tratamentos | WebP 800x600 |
-| `assets/casoN-antes/depois.svg` | casos reais **autorizados** | WebP 800x600, mesmo enquadramento no par |
-| `assets/pacienteN.svg` | fotos dos pacientes (autorizadas) | WebP 200x200 |
+| `assets/hero.mp4` (stock: dentista conversando com paciente) | vídeo do consultório/sorrisos | MP4 H.264, 1920x1080, 10–20s, **max 3MB**, sem áudio |
+| `assets/hero-poster.jpg` | frame do vídeo | WebP 1920x1080, ~100KB (atualizar `poster` no HTML) |
+| `assets/dra.jpg` | foto profissional da Dra. | WebP 800x1000 |
+| `assets/implantes.jpg`, `assets/invisalign.jpg` | fotos dos tratamentos | WebP 800x600 |
+| `assets/casoN-antes/depois.jpg` | casos reais **autorizados** (os atuais são pessoas diferentes, ilustrativos) | WebP 800x600, mesmo enquadramento no par |
+| `assets/pacienteN.jpg` | fotos dos pacientes (autorizadas) | WebP 200x200 |
 
 Ao trocar, atualizar as extensões nos `src` do `index.html` e rodar `python tools/check_assets.py`.
 
