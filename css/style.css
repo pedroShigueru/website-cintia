@@ -275,7 +275,6 @@ h1, h2, h3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
-  counter-reset: passo;
 }
 @media (max-width: 860px) { .passos { grid-template-columns: 1fr; } }
 .passos__num {
