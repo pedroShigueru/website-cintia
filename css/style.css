@@ -331,3 +331,48 @@ h1, h2, h3 {
 }
 .faq-list details[open] summary::after { rotate: 45deg; }
 .faq-list details p { margin-top: .8rem; color: var(--ink-soft); }
+
+/* ===== Contato ===== */
+.contato__box {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  background: var(--teal);
+  color: #fff;
+  border-radius: calc(var(--radius) * 1.4);
+  padding: clamp(2rem, 6vw, 4.5rem);
+  box-shadow: var(--shadow-md);
+}
+@media (max-width: 860px) { .contato__box { grid-template-columns: 1fr; } }
+.contato__box h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
+.contato__box .overline { color: #D9B87C; }
+.contato__box > div > p { margin: 1rem 0 2rem; color: rgba(255, 255, 255, .85); max-width: 40ch; }
+.btn--lg { padding: 1.1rem 2.3rem; font-size: 1.08rem; }
+.contato__info { font-style: normal; display: grid; gap: 1.25rem; align-content: center; }
+.contato__info p { color: rgba(255, 255, 255, .85); font-size: .98rem; }
+.contato__info strong { color: #fff; }
+.contato__link { text-decoration: underline; text-underline-offset: 3px; }
+.contato__link:hover { color: #D9B87C; }
+
+/* ===== Footer ===== */
+.site-footer { padding-block: 2.5rem; text-align: center; }
+.site-footer p { font-size: .85rem; color: var(--ink-soft); }
+
+/* ===== WhatsApp flutuante ===== */
+.whats-float {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: var(--whatsapp);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(30, 190, 93, .45);
+  transition: transform .2s ease;
+}
+.whats-float:hover { transform: scale(1.08); }
+.whats-float svg { width: 1.8rem; height: 1.8rem; }
