@@ -96,3 +96,74 @@ h1, h2, h3 {
 .btn--ghost { border-color: currentColor; color: var(--teal); background: transparent; }
 .btn--ghost:hover { background: var(--teal); color: #fff; box-shadow: none; }
 .btn svg { width: 1.25em; height: 1.25em; flex: none; }
+
+/* ===== Header ===== */
+.site-header {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 50;
+  padding-block: 1.1rem;
+  transition: background .3s ease, box-shadow .3s ease, padding .3s ease;
+}
+.site-header.is-scrolled {
+  background: rgba(250, 248, 245, .92);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+  padding-block: .6rem;
+}
+.site-header__inner { display: flex; align-items: center; gap: 2rem; }
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: #fff;
+  transition: color .3s ease;
+}
+.is-scrolled .logo { color: var(--teal); }
+.site-nav { display: flex; gap: 1.75rem; margin-left: auto; }
+.site-nav a {
+  font-size: .95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .85);
+  transition: color .2s ease;
+}
+.site-nav a:hover { color: #fff; }
+.is-scrolled .site-nav a { color: var(--ink-soft); }
+.is-scrolled .site-nav a:hover { color: var(--teal); }
+.btn--sm { padding: .6rem 1.3rem; font-size: .9rem; }
+@media (max-width: 760px) {
+  .site-nav { display: none; } /* mobile: logo + CTA bastam numa landing */
+}
+
+/* ===== Hero ===== */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  overflow: hidden;
+}
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(10, 47, 47, .88) 0%, rgba(10, 47, 47, .55) 55%, rgba(10, 47, 47, .25) 100%);
+}
+.hero__content { position: relative; max-width: 680px; padding-block: 8rem 6rem; }
+.hero__content h1 { font-size: clamp(2.5rem, 6vw, 4.25rem); }
+.hero__content p {
+  margin-top: 1.25rem;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  color: rgba(255, 255, 255, .88);
+  max-width: 34em;
+}
+.hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
+.btn--light { color: #fff; }
+.btn--light:hover { background: #fff; color: var(--teal); }

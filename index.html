@@ -12,10 +12,42 @@
 </head>
 <body>
 
-  <header class="site-header"><!-- Task 3 --></header>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="#inicio" class="logo">Dra. <strong>Cíntia</strong></a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a href="#especialidades">Especialidades</a>
+        <a href="#resultados">Resultados</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+      <a href="#contato" data-whats class="btn btn--whats btn--sm">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.9-5.2c-.6-1-.9-2-.9-2.6 0-.7.4-1.4.8-1.7.3-.3.7-.3 1-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.5.7c-.2.2-.3.4-.1.7a9 9 0 0 0 3.9 3.5c.3.1.5.1.7-.1l.8-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4 0 .1 0 .4-.1.6Z"/></svg>
+        Agendar avaliação
+      </a>
+    </div>
+  </header>
 
   <main>
-    <section class="hero" id="inicio"><!-- Task 3 --></section>
+    <section class="hero" id="inicio">
+      <video class="hero__video" muted loop playsinline preload="none"
+             poster="assets/hero-poster.svg" aria-hidden="true">
+        <source data-src="assets/hero.mp4" type="video/mp4">
+      </video>
+      <div class="hero__overlay" aria-hidden="true"></div>
+      <div class="container hero__content">
+        <span class="overline">Implantes dentários &bull; Invisalign</span>
+        <h1>Seu novo sorriso começa com uma conversa</h1>
+        <p>Implantes e alinhadores invisíveis com planejamento digital e acompanhamento próximo — do primeiro exame ao sorriso final.</p>
+        <div class="hero__actions">
+          <a href="#contato" data-whats class="btn btn--whats">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.9-5.2c-.6-1-.9-2-.9-2.6 0-.7.4-1.4.8-1.7.3-.3.7-.3 1-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.5.7c-.2.2-.3.4-.1.7a9 9 0 0 0 3.9 3.5c.3.1.5.1.7-.1l.8-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4 0 .1 0 .4-.1.6Z"/></svg>
+            Agende sua avaliação
+          </a>
+          <a href="#resultados" class="btn btn--ghost btn--light">Ver resultados</a>
+        </div>
+      </div>
+    </section>
     <section class="section" id="especialidades"><!-- Task 4 --></section>
     <section class="section section--sand" id="sobre"><!-- Task 4 --></section>
     <section class="section" id="resultados"><!-- Task 5 --></section>
