@@ -8,7 +8,7 @@ OPTIONAL = {"assets/hero.mp4"}  # vídeo real entra depois; o poster cobre
 
 html = (ROOT / "index.html").read_text(encoding="utf-8")
 refs = re.findall(
-    r'(?:src|href|data-src|poster)="(?!https?:|#|mailto:|tel:)([^"]+)"', html
+    r'(?:src|href|data-src|poster)="(?!https?:|data:|#|mailto:|tel:)([^"]+)"', html
 )
 missing = [r for r in refs if not (ROOT / r).exists() and r not in OPTIONAL]
 skipped = [r for r in refs if r in OPTIONAL and not (ROOT / r).exists()]
