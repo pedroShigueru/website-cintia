@@ -14,6 +14,7 @@ Os arquivos atuais em `assets/` são **fotos/vídeo de banco (Pexels, licença l
 | `assets/implantes.jpg`, `assets/invisalign.jpg` | fotos dos tratamentos | WebP 800x600 |
 | `assets/casoN-antes/depois.jpg` | casos reais **autorizados** (os atuais são pessoas diferentes, ilustrativos) | WebP 800x600, mesmo enquadramento no par |
 | `assets/pacienteN.jpg` | fotos dos pacientes (autorizadas) | WebP 200x200 |
+| `assets/jornada-*.jpg` (scan, simulacao, rotina, final) | fotos reais das etapas do Invisalign no consultório | WebP 1920x1080 |
 
 Ao trocar, atualizar as extensões nos `src` do `index.html` e rodar `python tools/check_assets.py`.
 

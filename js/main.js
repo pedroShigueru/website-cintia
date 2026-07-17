@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js"); // sem JS, .reveal e a jornada ficam visíveis
+
 // ===== WhatsApp: número definido UMA vez =====
 const WHATS_URL =
   "https://wa.me/5511999999999?text=" + // TROCAR pelo número real
@@ -56,8 +58,28 @@ document.querySelectorAll(".compare").forEach((fig) => {
   );
 });
 
+// ===== Jornada: scrollytelling pinado =====
+const jornada = document.querySelector(".jornada");
+if (jornada && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const steps = [...jornada.querySelectorAll(".jornada__step")];
+  const layers = [...jornada.querySelectorAll("[data-step]")]; // imgs + dots
+  const setActive = (i) => {
+    steps.forEach((s, n) => s.classList.toggle("is-active", n === i));
+    layers.forEach((el) => el.classList.toggle("is-active", +el.dataset.step === i));
+  };
+  setActive(0);
+  const so = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) setActive(steps.indexOf(e.target));
+      });
+    },
+    { rootMargin: "-50% 0px -50% 0px" } // ativa quando o passo cruza o centro
+  );
+  steps.forEach((s) => so.observe(s));
+}
+
 // ===== Reveal on scroll =====
-document.documentElement.classList.add("js"); // sem JS, .reveal fica visível
 const io = new IntersectionObserver(
   (entries) => {
     entries.forEach((e) => {
