@@ -435,3 +435,15 @@ p + p { margin-top: 1.25em; }
   background: var(--navy); color: var(--offwhite);
   padding: .625rem 1rem; font-size: .8125rem; letter-spacing: .08em;
 }
+
+/* ===== Post ===== */
+.post-cabecalho { margin-bottom: 3rem; }
+.post-meta {
+  margin-top: 1.5rem; font-size: .8125rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-soft);
+  display: flex; gap: .625rem; flex-wrap: wrap;
+}
+.post-corpo p { font-size: 1.0625rem; }
+.post-corpo h2 { font-size: clamp(1.5rem, 2.5vw, 1.875rem); }
+.post-relacionado { margin-top: 4rem; padding-top: 2rem; border-top: var(--rule); }
+.post-relacionado .overline { margin-bottom: 1rem; }
