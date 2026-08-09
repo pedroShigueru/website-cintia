@@ -1,0 +1,6 @@
+# O build grava LF. Manter LF no working tree para `py tools/build.py --check`
+# nao acusar dessincronia em maquinas com core.autocrlf=true.
+* text=auto eol=lf
+*.jpg binary
+*.png binary
+*.mp4 binary
