@@ -1,5 +1,7 @@
 """Testes do gerador estatico."""
+import json
 import sys
+import textwrap
 from pathlib import Path
 
 import pytest
@@ -56,3 +58,112 @@ class TestRender:
     def test_nao_confunde_chave_de_css(self):
         css = "a { color: red } {{ cor }}"
         assert build.render(css, {"cor": "azul"}) == "a { color: red } azul"
+
+
+def _montar_projeto(tmp_path: Path) -> Path:
+    """Cria um projeto minimo em disco para exercitar o pipeline."""
+    (tmp_path / "src" / "data").mkdir(parents=True)
+    (tmp_path / "src" / "partials").mkdir(parents=True)
+    (tmp_path / "src" / "layouts").mkdir(parents=True)
+    (tmp_path / "src" / "pages").mkdir(parents=True)
+    (tmp_path / "src" / "content" / "pt").mkdir(parents=True)
+
+    (tmp_path / "src" / "data" / "site.json").write_text(
+        json.dumps({"nome": "Fukuoka", "base_url": "https://exemplo.com.br"}),
+        encoding="utf-8",
+    )
+    (tmp_path / "src" / "data" / "nav.json").write_text(
+        json.dumps({"principal": [{"rotulo": "Home", "url": "index.html"}]}),
+        encoding="utf-8",
+    )
+    (tmp_path / "src" / "partials" / "cta-bar.html").write_text(
+        "<nav>cta</nav>", encoding="utf-8"
+    )
+    (tmp_path / "src" / "partials" / "header.html").write_text(
+        "<header>{{ site_nome }}{{ cta_bar }}</header>", encoding="utf-8"
+    )
+    (tmp_path / "src" / "partials" / "footer.html").write_text(
+        "<footer>f</footer>", encoding="utf-8"
+    )
+    (tmp_path / "src" / "partials" / "head.html").write_text(
+        "<title>{{ title }}</title>", encoding="utf-8"
+    )
+    (tmp_path / "src" / "layouts" / "base.html").write_text(
+        '<html lang="{{ lang }}"><head>{{ head }}</head>'
+        "<body>{{ header }}{{ conteudo }}{{ footer }}</body></html>",
+        encoding="utf-8",
+    )
+    (tmp_path / "src" / "pages" / "index.html").write_text(
+        textwrap.dedent("""\
+            ---
+            title: Home
+            ---
+            <main>oi</main>"""),
+        encoding="utf-8",
+    )
+    (tmp_path / "src" / "content" / "pt" / "filosofia.html").write_text(
+        "<p>um</p>\n<!--resumo-->\n<p>dois</p>", encoding="utf-8"
+    )
+    return tmp_path
+
+
+class TestPipeline:
+    def test_carregar_dados_prefixa_site(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        dados = build.carregar_dados(raiz)
+        assert dados["site_nome"] == "Fukuoka"
+        assert dados["nav"]["principal"][0]["rotulo"] == "Home"
+
+    def test_conteudo_gera_resumo_ate_o_marcador(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        conteudo = build.carregar_conteudo(raiz, "pt")
+        assert "dois" in conteudo["content_filosofia"]
+        assert "dois" not in conteudo["content_filosofia_resumo"]
+        assert "um" in conteudo["content_filosofia_resumo"]
+
+    def test_url_derivada_do_caminho(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        sub = raiz / "src" / "pages" / "tratamentos"
+        sub.mkdir()
+        (sub / "invisalign.html").write_text(
+            "---\ntitle: Inv\n---\n<main>x</main>", encoding="utf-8"
+        )
+        urls = {p.url for p in build.descobrir_paginas(raiz)}
+        assert "tratamentos/invisalign.html" in urls
+
+    def test_construir_compoe_layout_e_partials(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        saida = build.construir(raiz)
+        html = saida["index.html"]
+        assert "<title>Home</title>" in html
+        assert "<header>Fukuoka<nav>cta</nav></header>" in html
+        assert "<main>oi</main>" in html
+        assert 'lang="pt-BR"' in html
+
+    def test_construir_gera_sitemap_e_robots(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        saida = build.construir(raiz)
+        assert "<loc>https://exemplo.com.br/</loc>" in saida["sitemap.xml"]
+        assert "Sitemap: https://exemplo.com.br/sitemap.xml" in saida["robots.txt"]
+
+    def test_escrever_e_idempotente(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        saida = build.construir(raiz)
+        primeira = build.escrever(raiz, saida)
+        segunda = build.escrever(raiz, saida)
+        assert "index.html" in primeira
+        assert segunda == []
+
+    def test_verificar_acusa_dessincronia(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        saida = build.construir(raiz)
+        assert build.verificar(raiz, saida) == ["index.html", "robots.txt", "sitemap.xml"]
+        build.escrever(raiz, saida)
+        assert build.verificar(raiz, saida) == []
+
+    def test_check_sai_com_1_quando_dessincronizado(self, tmp_path, monkeypatch):
+        raiz = _montar_projeto(tmp_path)
+        monkeypatch.setattr(build, "RAIZ", raiz)
+        assert build.main(["--check"]) == 1
+        assert build.main([]) == 0
+        assert build.main(["--check"]) == 0
