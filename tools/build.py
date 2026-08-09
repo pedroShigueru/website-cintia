@@ -153,6 +153,35 @@ def _montar_robots(base_url: str) -> str:
     return f"User-agent: *\nAllow: /\n\nSitemap: {base_url.rstrip('/')}/sitemap.xml\n"
 
 
+def _e_indexavel(pagina: Pagina) -> bool:
+    return pagina.meta.get("noindex", "").lower() not in {"true", "sim", "1"}
+
+
+def _montar_alternates(base_url: str, url: str, lang: str, meta: dict) -> str:
+    """Monta as tags hreflang a partir de `alternate_en` / `alternate_pt`.
+
+    Cada pagina declara explicitamente sua contraparte. Sem declaracao,
+    nenhum hreflang e emitido — melhor que apontar para uma URL inexistente.
+    """
+    alvos = [meta[c] for c in ("alternate_en", "alternate_pt") if meta.get(c)]
+    if not alvos:
+        return ""
+
+    base = base_url.rstrip("/")
+    propria = "en" if lang == "en" else "pt-BR"
+    marcas = [f'<link rel="alternate" hreflang="{propria}" href="{_url_absoluta(base, url)}">']
+    if propria == "pt-BR":
+        marcas.append(f'<link rel="alternate" hreflang="x-default" href="{_url_absoluta(base, url)}">')
+    for alvo in alvos:
+        idioma = "en" if alvo.startswith("en/") else "pt-BR"
+        marcas.append(f'<link rel="alternate" hreflang="{idioma}" href="{_url_absoluta(base, alvo)}">')
+        if idioma == "pt-BR":
+            marcas.append(
+                f'<link rel="alternate" hreflang="x-default" href="{_url_absoluta(base, alvo)}">'
+            )
+    return "\n  ".join(marcas)
+
+
 def construir(raiz: Path) -> dict[str, str]:
     """Devolve {caminho_relativo: conteudo} de tudo que deve existir no disco."""
     dados = carregar_dados(raiz)
@@ -173,14 +202,32 @@ def construir(raiz: Path) -> dict[str, str]:
             "lang": lang,
             "url": pagina.url,
             "url_absoluta": _url_absoluta(dados["site_base_url"], pagina.url),
+            # Caminho relativo ate a raiz. Mantem os links corretos em
+            # subpastas sem depender de o site estar servido na raiz do dominio.
+            "prefixo": "../" * pagina.url.count("/"),
+            "alternates": _montar_alternates(
+                dados["site_base_url"], pagina.url, lang, pagina.meta
+            ),
+            "meta_robots": (
+                "" if _e_indexavel(pagina)
+                else '<meta name="robots" content="noindex, follow">'
+            ),
+            "ativo_pt": "" if lang == "en" else 'aria-current="true"',
+            "ativo_en": 'aria-current="true"' if lang == "en" else "",
         }
+        # Front-matter opcional: default vazio para nao quebrar o render.
+        for chave in ("classe_body", "jsonld"):
+            ctx.setdefault(chave, "")
+
         ctx["conteudo"] = render(pagina.corpo, ctx)
         for nome in ORDEM_PARTIALS:
             ctx[nome] = render(partials[nome], ctx)
         layout = layouts[pagina.meta.get("layout", "base")]
         saida[pagina.url] = render(layout, ctx)
 
-    saida["sitemap.xml"] = _montar_sitemap(dados["site_base_url"], paginas)
+    saida["sitemap.xml"] = _montar_sitemap(
+        dados["site_base_url"], [p for p in paginas if _e_indexavel(p)]
+    )
     saida["robots.txt"] = _montar_robots(dados["site_base_url"])
     return saida
 

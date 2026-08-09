@@ -12,8 +12,10 @@
   --ink-soft: #4A5568;
   --surface: #FFFFFF;
 
-  --font-display: "Cormorant Garamond", Georgia, serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  /* Noto Sans JP cobre latim e japones: a pagina 日本語対応 tem texto em
+     japones de verdade, que numa fonte so-latina cairia para o sistema. */
+  --font-display: "Cormorant Garamond", "Noto Sans JP", Georgia, serif;
+  --font-body: "Noto Sans JP", system-ui, -apple-system, sans-serif;
 
   --container: 1080px;
   --container-narrow: 680px;
@@ -130,3 +132,93 @@ p + p { margin-top: 1.25em; }
 .section--navy .btn--ghost:hover { background: var(--gold-light); color: var(--navy-deep); }
 .btn--sm { padding: .625rem 1.125rem; font-size: .875rem; }
 .btn--lg { padding: 1.0625rem 2.25rem; font-size: 1rem; }
+
+/* ===== Header ===== */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--offwhite);
+  border-bottom: 1px solid var(--gray);
+}
+.site-header.is-scrolled { box-shadow: var(--shadow); }
+.site-header__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; padding-block: 1rem;
+}
+.logo { display: grid; line-height: 1.1; }
+.logo__nome {
+  font-family: var(--font-display); font-size: 1.5rem;
+  letter-spacing: .04em; color: var(--navy);
+}
+.logo__sub {
+  font-size: .625rem; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--gold-text);
+}
+.site-nav { display: none; gap: 1.75rem; font-size: .9375rem; }
+.site-nav a { color: var(--ink-soft); padding-block: .25rem; border-bottom: 1px solid transparent; }
+.site-nav a:hover, .site-nav a[aria-current="page"] {
+  color: var(--navy); border-bottom-color: var(--gold);
+}
+@media (min-width: 1080px) { .site-nav { display: flex; } }
+
+.site-header__acoes { display: flex; align-items: center; gap: 1rem; }
+.lang-switch { display: flex; gap: .5rem; font-size: .8125rem; letter-spacing: .1em; }
+.lang-switch a { color: var(--ink-soft); }
+.lang-switch a[aria-current="true"] { color: var(--navy); border-bottom: 1px solid var(--gold); }
+
+/* ===== CTA bar: os tres botoes sempre visiveis ===== */
+.cta-bar { display: flex; gap: .5rem; }
+.cta-bar__item {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .625rem 1rem; border: 1px solid var(--gray); border-radius: var(--radius);
+  font-size: .875rem; color: var(--navy); background: var(--surface);
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.cta-bar__item svg { width: 1.0625rem; height: 1.0625rem; flex: none; }
+.cta-bar__item:hover { border-color: var(--navy); }
+.cta-bar__item--destaque { background: var(--navy); color: #FFF; border-color: var(--navy); }
+.cta-bar__item--destaque:hover { background: var(--navy-deep); }
+
+/* Desktop: so o botao de destaque cabe no header; os outros ficam na barra fixa. */
+@media (max-width: 1079px) {
+  .site-header .cta-bar { display: none; }
+}
+@media (min-width: 1080px) {
+  .site-header .cta-bar__item:not(.cta-bar__item--destaque) { display: none; }
+}
+
+.cta-bar-mobile {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 60;
+  background: var(--offwhite); border-top: 1px solid var(--gray);
+  padding: .625rem 1rem; padding-bottom: max(.625rem, env(safe-area-inset-bottom));
+}
+.cta-bar-mobile .cta-bar { justify-content: center; }
+.cta-bar-mobile .cta-bar__item { flex: 1; justify-content: center; max-width: 12rem; }
+.cta-bar-mobile .cta-bar__item span { font-size: .8125rem; }
+@media (min-width: 1080px) { .cta-bar-mobile { display: none; } }
+/* Espaco para a barra fixa nao cobrir o fim da pagina. */
+@media (max-width: 1079px) { body { padding-bottom: 4.5rem; } }
+
+/* ===== Footer ===== */
+.site-footer { background: var(--navy); color: var(--gray); padding-block: 4rem 2rem; }
+.site-footer a { color: var(--gold-light); }
+.site-footer__grid { display: grid; gap: 2.5rem; }
+@media (min-width: 760px) { .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr; } }
+.site-footer .logo__nome { color: var(--offwhite); }
+.site-footer .logo__sub { color: var(--gold-light); }
+.site-footer__tagline { margin-top: 1rem; font-size: .9375rem; max-width: 22rem; }
+.site-footer__titulo {
+  font-family: var(--font-body); font-size: .75rem; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--gold-light);
+  margin-bottom: 1rem;
+}
+.site-footer__col { font-style: normal; font-size: .9375rem; }
+.site-footer__col p + p { margin-top: 1rem; }
+.site-footer__base {
+  margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(201,169,110,.3);
+  display: flex; flex-wrap: wrap; gap: .5rem 2rem; justify-content: space-between;
+  font-size: .8125rem;
+}
+
+/* ===== Reveal ===== */
+.js .reveal { opacity: 0; translate: 0 1rem; transition: opacity .7s ease, translate .7s ease; }
+.js .reveal.is-visible { opacity: 1; translate: none; }

@@ -167,3 +167,82 @@ class TestPipeline:
         assert build.main(["--check"]) == 1
         assert build.main([]) == 0
         assert build.main(["--check"]) == 0
+
+
+class TestContextoDePagina:
+    def test_prefixo_reflete_a_profundidade_da_url(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        sub = raiz / "src" / "pages" / "tratamentos"
+        sub.mkdir()
+        (sub / "invisalign.html").write_text(
+            '---\ntitle: Inv\n---\n<a href="{{ prefixo }}index.html">home</a>',
+            encoding="utf-8",
+        )
+        (raiz / "src" / "pages" / "index.html").write_text(
+            '---\ntitle: Home\n---\n<a href="{{ prefixo }}index.html">home</a>',
+            encoding="utf-8",
+        )
+        saida = build.construir(raiz)
+        assert 'href="index.html"' in saida["index.html"]
+        assert 'href="../index.html"' in saida["tratamentos/invisalign.html"]
+
+    def test_front_matter_opcional_tem_default_vazio(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "layouts" / "base.html").write_text(
+            '<body class="{{ classe_body }}">{{ jsonld }}{{ conteudo }}</body>',
+            encoding="utf-8",
+        )
+        assert 'class=""' in build.construir(raiz)["index.html"]
+
+    def test_alternates_geram_hreflang_com_x_default(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "pages" / "index.html").write_text(
+            "---\ntitle: Home\nalternate_en: en/index.html\n---\n<main>oi</main>",
+            encoding="utf-8",
+        )
+        (raiz / "src" / "partials" / "head.html").write_text(
+            "<title>{{ title }}</title>{{ alternates }}", encoding="utf-8"
+        )
+        html = build.construir(raiz)["index.html"]
+        assert 'hreflang="pt-BR" href="https://exemplo.com.br/"' in html
+        assert 'hreflang="en" href="https://exemplo.com.br/en/index.html"' in html
+        assert 'hreflang="x-default" href="https://exemplo.com.br/"' in html
+
+    def test_sem_alternates_nao_emite_hreflang(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "head.html").write_text(
+            "<title>{{ title }}</title>{{ alternates }}", encoding="utf-8"
+        )
+        assert "hreflang" not in build.construir(raiz)["index.html"]
+
+    def test_noindex_emite_meta_robots_e_sai_do_sitemap(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "head.html").write_text(
+            "<title>{{ title }}</title>{{ meta_robots }}", encoding="utf-8"
+        )
+        en = raiz / "src" / "pages" / "en"
+        en.mkdir()
+        (en / "index.html").write_text(
+            "---\ntitle: Home EN\nlang: en\nnoindex: true\n---\n<main>hi</main>",
+            encoding="utf-8",
+        )
+        saida = build.construir(raiz)
+        assert '<meta name="robots" content="noindex, follow">' in saida["en/index.html"]
+        assert "meta name=\"robots\"" not in saida["index.html"]
+        assert "en/index.html" not in saida["sitemap.xml"]
+        assert "<loc>https://exemplo.com.br/</loc>" in saida["sitemap.xml"]
+
+    def test_seletor_de_idioma_marca_a_lingua_ativa(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "header.html").write_text(
+            '<a {{ ativo_pt }}>PT</a><a {{ ativo_en }}>EN</a>', encoding="utf-8"
+        )
+        en = raiz / "src" / "pages" / "en"
+        en.mkdir()
+        (en / "index.html").write_text(
+            "---\ntitle: EN\nlang: en\n---\n<main>hi</main>", encoding="utf-8"
+        )
+        saida = build.construir(raiz)
+        assert '<a aria-current="true">PT</a><a >EN</a>' in saida["index.html"]
+        assert '<a ><a' not in saida["en/index.html"]
+        assert '<a aria-current="true">EN</a>' in saida["en/index.html"]

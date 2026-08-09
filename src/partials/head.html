@@ -1,0 +1,24 @@
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ url_absoluta }}">
+  {{ meta_robots }}
+  {{ alternates }}
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:type" content="{{ og_type }}">
+  <meta property="og:url" content="{{ url_absoluta }}">
+  <meta property="og:site_name" content="{{ site_nome }}">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="{{ prefixo }}assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ prefixo }}css/style.css">
+  <noscript><style>.reveal { opacity: 1 !important; translate: none !important; }</style></noscript>
+  {{ jsonld }}
+  <!-- TROCAR: preencher ga4_id em src/data/site.json e descomentar
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site_ga4_id }}"></script>
+  -->
