@@ -253,3 +253,85 @@ p + p { margin-top: 1.25em; }
 .valores__item h2 { font-size: clamp(1.25rem, 2vw, 1.5rem); margin-bottom: .75rem; }
 .valores__item p { color: var(--ink-soft); font-size: .9375rem; }
 .section--surface .valores__item { background: var(--surface); }
+
+/* ===== Hero ===== */
+.hero { position: relative; display: grid; }
+.hero__media { grid-area: 1/1; }
+.hero__media img { width: 100%; height: clamp(28rem, 70vh, 44rem); object-fit: cover; }
+.hero::after {
+  content: ""; grid-area: 1/1;
+  background: linear-gradient(100deg, rgba(10,31,58,.94) 0%, rgba(10,31,58,.78) 45%, rgba(10,31,58,.3) 100%);
+}
+.hero__conteudo {
+  grid-area: 1/1; z-index: 1; align-self: center;
+  max-width: var(--container); width: 100%;
+}
+.hero__conteudo > * { max-width: 36rem; }
+.hero h1 { color: var(--offwhite); }
+.hero .overline { color: var(--gold-light); }
+.hero .lead { color: var(--gray); }
+.hero__acoes { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; }
+.hero .btn--ghost { border-color: var(--gold-light); color: var(--gold-light); }
+.hero .btn--ghost:hover { background: var(--gold-light); color: var(--navy-deep); }
+.hero :focus-visible { outline-color: var(--gold-light); }
+
+/* ===== Blocos de texto ===== */
+.texto-corrido p + p { margin-top: 1.25em; }
+.texto-corrido--claro { color: var(--gray); }
+.texto-corrido--claro p { font-size: 1.0625rem; }
+.centralizado { text-align: center; margin-top: 3rem; }
+
+/* ===== Cards de tratamento ===== */
+.tratamentos-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 680px) { .tratamentos-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .tratamentos-grid { grid-template-columns: repeat(3, 1fr); } }
+.tratamento-card {
+  display: grid; grid-template-rows: auto 1fr;
+  background: var(--offwhite); border: 1px solid var(--gray); border-radius: var(--radius);
+  transition: border-color .25s;
+}
+.tratamento-card:hover { border-color: var(--gold); }
+.tratamento-card img { aspect-ratio: 4/3; object-fit: cover; width: 100%; }
+.tratamento-card__corpo { padding: 1.75rem; display: grid; align-content: start; gap: .75rem; }
+.tratamento-card p { color: var(--ink-soft); font-size: .9375rem; }
+.link-seta { font-size: .875rem; color: var(--gold-text); letter-spacing: .04em; }
+.link-seta::after { content: " \2192"; }
+
+/* ===== Figura emoldurada: filete dourado em vez de sombra ===== */
+.figura-emoldurada { position: relative; }
+.figura-emoldurada img { width: 100%; border-radius: var(--radius); }
+.figura-emoldurada::before {
+  content: ""; position: absolute; inset: -.75rem -.75rem auto auto;
+  width: 60%; height: 60%; border-top: var(--rule); border-right: var(--rule);
+  pointer-events: none;
+}
+
+/* ===== Depoimentos ===== */
+.depo-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 760px) { .depo-grid { grid-template-columns: repeat(3, 1fr); } }
+.depo { padding: 2rem; border-left: var(--rule); background: var(--surface); }
+.depo p { font-family: var(--font-display); font-size: 1.1875rem; line-height: 1.5; color: var(--navy); }
+.depo footer { margin-top: 1.5rem; font-size: .8125rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* ===== Faixa de atendimento em japones ===== */
+.faixa-jp { background: var(--gray); }
+
+/* ===== Cards de post ===== */
+.post-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 760px) { .post-grid { grid-template-columns: repeat(3, 1fr); } }
+.post-card {
+  display: grid; align-content: start; gap: .75rem;
+  padding: 2rem; border-top: var(--rule); background: var(--surface);
+  transition: background-color .25s;
+}
+.post-card:hover { background: var(--offwhite); }
+.post-card p { color: var(--ink-soft); font-size: .9375rem; }
+
+/* ===== Bloco de contato ===== */
+.bloco-contato { font-style: normal; }
+.bloco-contato p + p { margin-top: 1.5rem; }
+.bloco-contato strong {
+  display: block; font-size: .75rem; font-weight: 500; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold-light); margin-bottom: .5rem;
+}
+.section--navy .bloco-contato a { color: var(--gold-light); }
