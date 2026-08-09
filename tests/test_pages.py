@@ -94,3 +94,64 @@ def test_json_ld_e_valido(paginas):
 def test_nenhum_placeholder_de_template_escapou(html_bruto):
     vazando = [url for url, texto in html_bruto.items() if "{{" in texto]
     assert vazando == []
+
+
+def _caminho_de(href: str) -> str:
+    """Converte uma URL absoluta do site no caminho relativo correspondente."""
+    resto = href.split("//", 1)[-1]
+    resto = resto.split("/", 1)[1] if "/" in resto else ""
+    return resto or "index.html"
+
+
+def test_hreflang_e_reciproco(paginas):
+    """Se A aponta para B como alternate, B precisa apontar de volta para A."""
+    alternates = {
+        url: {
+            _caminho_de(item["href"])
+            for item in p.links
+            if item.get("rel") == "alternate" and item.get("hreflang") != "x-default"
+        }
+        for url, p in paginas.items()
+    }
+    problemas = []
+    for url, destinos in alternates.items():
+        for destino in destinos - {url}:
+            if destino not in alternates:
+                problemas.append((url, destino, "destino nao existe"))
+            elif url not in alternates[destino]:
+                problemas.append((url, destino, "sem link de volta"))
+    assert problemas == []
+
+
+def test_paginas_em_ingles_estao_noindex(html_bruto):
+    """Enquanto nao traduzidas, as paginas EN nao podem ser indexadas."""
+    faltando = [
+        url for url, texto in html_bruto.items()
+        if url.startswith("en/") and 'content="noindex' not in texto
+    ]
+    assert faltando == []
+
+
+def test_sitemap_nao_lista_paginas_noindex(saida):
+    assert "/en/" not in saida["sitemap.xml"]
+
+
+def test_nenhum_link_interno_quebrado(saida, paginas):
+    """Todo href relativo deve corresponder a um arquivo que existe."""
+    import posixpath
+    from pathlib import Path
+
+    raiz = Path(__file__).resolve().parents[1]
+    gerados = set(saida)
+    problemas = []
+    for url, p in paginas.items():
+        base = posixpath.dirname(url)
+        for item in p.links:
+            alvo = item.get("href", "")
+            if not alvo or alvo.startswith(("http", "#", "mailto:", "tel:", "data:")):
+                continue
+            resolvido = posixpath.normpath(posixpath.join(base, alvo)).replace("\\", "/")
+            if resolvido in gerados or (raiz / resolvido).exists():
+                continue
+            problemas.append((url, alvo, resolvido))
+    assert problemas == []
