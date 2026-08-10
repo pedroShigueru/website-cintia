@@ -55,10 +55,6 @@ def test_nenhum_placeholder_critico_sobrou():
     assert pendentes == [], "Placeholders criticos:\n  - " + "\n  - ".join(pendentes)
 
 
-@pytest.mark.xfail(
-    reason="Aguardando endereco, CEP, telefone e coordenadas reais da clinica",
-    strict=False,
-)
 def test_json_ld_nao_contem_dado_pendente(paginas):
     """Publicar schema com TROCAR informa dado falso ao Google."""
     problemas = []
