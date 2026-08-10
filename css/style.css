@@ -144,15 +144,7 @@ p + p { margin-top: 1.25em; }
   display: flex; align-items: center; justify-content: space-between;
   gap: 2rem; padding-block: 1rem;
 }
-.logo { display: grid; line-height: 1.1; }
-.logo__nome {
-  font-family: var(--font-display); font-size: 1.5rem;
-  letter-spacing: .04em; color: var(--navy);
-}
-.logo__sub {
-  font-size: .625rem; letter-spacing: .28em; text-transform: uppercase;
-  color: var(--gold-text);
-}
+.logo { display: block; flex: none; }
 .site-nav { display: none; gap: 1.75rem; font-size: .9375rem; }
 .site-nav a { color: var(--ink-soft); padding-block: .25rem; border-bottom: 1px solid transparent; }
 .site-nav a:hover, .site-nav a[aria-current="page"] {
@@ -203,8 +195,6 @@ p + p { margin-top: 1.25em; }
 .site-footer a { color: var(--gold-light); }
 .site-footer__grid { display: grid; gap: 2.5rem; }
 @media (min-width: 760px) { .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr; } }
-.site-footer .logo__nome { color: var(--offwhite); }
-.site-footer .logo__sub { color: var(--gold-light); }
 .site-footer__tagline { margin-top: 1rem; font-size: .9375rem; max-width: 22rem; }
 .site-footer__titulo {
   font-family: var(--font-body); font-size: .75rem; font-weight: 500;
@@ -239,7 +229,6 @@ p + p { margin-top: 1.25em; }
   margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--gray);
   font-size: .9375rem; color: var(--ink-soft);
 }
-.logo--assinatura, .logo--footer { margin-bottom: 1rem; }
 
 /* ===== Valores ===== */
 .valores { display: grid; gap: 1px; background: var(--gray); border-block: 1px solid var(--gray); }
@@ -401,8 +390,8 @@ p + p { margin-top: 1.25em; }
 
 /* ===== Aviso de conteudo ilustrativo ===== */
 .aviso {
-  background: var(--gray); border-left: 3px solid var(--navy);
-  padding: 1rem 1.25rem; font-size: .875rem; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--gray); border-top: var(--rule);
+  padding: 1.25rem 1.5rem; font-size: .875rem; color: var(--ink-soft);
   margin-bottom: 2.5rem; border-radius: var(--radius);
 }
 .section--surface .aviso { background: var(--offwhite); }
@@ -474,7 +463,11 @@ p + p { margin-top: 1.25em; }
 .mapa__nota { margin-top: 1rem; font-size: .8125rem; color: var(--ink-soft); text-align: center; }
 
 /* ===== Logo real (SVG) ===== */
-/* A versao transparente da o creme #DBD1C7 sobre navy: 9,20:1.
-   Nao usar em fundo claro: sobre off-white cai para 1,40:1. */
+/* Duas variantes, uma por tipo de fundo:
+   - ...-transparente.svg  wordmark creme #DBD1C7  -> so sobre navy (9,20:1)
+   - ...-escura.svg        wordmark navy #0F2D52   -> so sobre claro (12,91:1)
+   Trocar uma pela outra inverte o contraste e some com a logo. */
 .logo-marca { width: min(15rem, 70%); height: auto; }
+.logo-marca--header { width: clamp(8.75rem, 20vw, 11rem); max-width: none; }
+.logo-marca--assinatura { width: min(13rem, 60%); margin-bottom: 1.5rem; }
 .site-footer .logo-marca { margin-bottom: 1.5rem; }
