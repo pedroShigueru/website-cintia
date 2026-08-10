@@ -1,0 +1,24 @@
+<header class="site-header">
+    <div class="container site-header__inner">
+      <a href="{{ prefixo }}en/index.html" class="logo">
+        <img class="logo-marca logo-marca--header"
+             src="{{ prefixo }}assets/fukuoka-dental-clinic-escura.svg"
+             alt="{{ site_nome }}" width="1372" height="372" decoding="async">
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="{{ prefixo }}en/about.html">About</a>
+        <a href="{{ prefixo }}en/treatments.html">Treatments</a>
+        <a href="{{ prefixo }}en/philosophy.html">Philosophy</a>
+        <a href="{{ prefixo }}en/values.html">Values</a>
+        <a href="{{ prefixo }}en/japanese-speaking-dentist.html" lang="ja">日本語</a>
+        <a href="{{ prefixo }}en/contact.html">Contact</a>
+      </nav>
+      <div class="site-header__acoes">
+        <nav class="lang-switch" aria-label="Language">
+          <a href="{{ prefixo }}index.html" hreflang="pt-BR" {{ ativo_pt }}>PT</a>
+          <a href="{{ prefixo }}en/index.html" hreflang="en" {{ ativo_en }}>EN</a>
+        </nav>
+        {{ cta_bar }}
+      </div>
+    </div>
+  </header>

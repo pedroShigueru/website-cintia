@@ -1,21 +1,114 @@
 ---
 title: Fukuoka Dental Clinic — Dentist on Avenida Paulista, São Paulo
-description: Dental care on Avenida Paulista, São Paulo. Invisalign, dental implants, whitening and oral rehabilitation, with Japanese-inspired precision.
+description: English-speaking dental clinic on Avenida Paulista, São Paulo. Invisalign, dental implants, whitening and oral rehabilitation with Japanese precision.
 og_type: website
 lang: en
 noindex: true
 alternate_pt: index.html
 ---
-    <section class="section">
-      <div class="container container--narrow">
+    <section class="hero">
+      <div class="hero__media">
+        <img src="{{ prefixo }}assets/hero.webp" alt="Treatment room at Fukuoka Dental Clinic"
+             width="1920" height="1080" fetchpriority="high" decoding="async">
+      </div>
+      <div class="container hero__conteudo">
         <span class="overline">Avenida Paulista &middot; São Paulo</span>
         <h1>Excellence inspired by Japanese precision</h1>
         <hr class="rule">
-        <p class="lead">Dental care combining science, technology and genuinely human attention. We care for people, not just teeth.</p>
-        <p class="aviso" role="note">The full English version of this site is being prepared. In the meantime, please <a href="{{ prefixo }}index.html">visit the Portuguese version</a> or contact us directly — we speak English, Japanese and Portuguese.</p>
-        <p class="contato-acoes">
-          <a class="btn btn--primary" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Book an appointment</a>
-          <a class="btn btn--ghost" href="{{ site_maps_url }}" target="_blank" rel="noopener">Find us</a>
-        </p>
+        <p class="lead">Dentistry that combines science, technology and genuinely human care. We care for people, not just teeth.</p>
+        <div class="hero__acoes">
+          <a class="btn btn--primary btn--lg" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Book an appointment</a>
+          <a class="btn btn--ghost btn--lg" href="{{ prefixo }}en/treatments.html">See our treatments</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <div class="section-head" style="margin-bottom:0">
+          <span class="overline">Mission</span>
+          <h2>Dentistry has the power to transform lives</h2>
+          <hr class="rule">
+        </div>
+        <div class="texto-corrido">
+          {{ content_mission }}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Treatments</span>
+          <h2>Care planned around each need</h2>
+          <hr class="rule">
+          <p class="lead">From discreet alignment to full rehabilitation, with digital planning and a minimally invasive approach.</p>
+        </div>
+        <div class="tratamentos-grid">
+          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments.html#invisalign">
+            <img src="{{ prefixo }}assets/invisalign.webp" alt="Clear Invisalign aligner" width="800" height="600" loading="lazy" decoding="async">
+            <div class="tratamento-card__corpo">
+              <h3>Invisalign<sup>&reg;</sup></h3>
+              <p>Clear, removable aligners planned digitally from the start.</p>
+              <span class="link-seta">Learn more</span>
+            </div>
+          </a>
+          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments.html#implants">
+            <img src="{{ prefixo }}assets/implantes.webp" alt="Dental implant model" width="800" height="600" loading="lazy" decoding="async">
+            <div class="tratamento-card__corpo">
+              <h3>Dental implants</h3>
+              <p>Tooth replacement with guided surgery and CBCT planning.</p>
+              <span class="link-seta">Learn more</span>
+            </div>
+          </a>
+          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments.html#whitening">
+            <img src="{{ prefixo }}assets/clareamento.webp" alt="Dental shade guide used for whitening" width="800" height="600" loading="lazy" decoding="async">
+            <div class="tratamento-card__corpo">
+              <h3>Teeth whitening</h3>
+              <p>Supervised protocols with sensitivity under control.</p>
+              <span class="link-seta">Learn more</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--navy">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <span class="overline">Philosophy</span>
+        <h2>We care for people, not just teeth</h2>
+        <hr class="rule">
+        <div class="texto-corrido texto-corrido--claro">
+          {{ content_philosophy_resumo }}
+        </div>
+        <p><a class="btn btn--ghost" href="{{ prefixo }}en/philosophy.html">Read the full manifesto</a></p>
+      </div>
+    </section>
+
+    <section class="section faixa-jp">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <span class="overline" lang="ja">日本語対応</span>
+        <h2>Japanese-speaking care</h2>
+        <hr class="rule">
+        <p class="lead">The Japanese community in São Paulo finds care in their own language here, with the technical rigour and courtesy they expect.</p>
+        <p><a class="btn btn--ghost" href="{{ prefixo }}en/japanese-speaking-dentist.html">Learn more</a></p>
+      </div>
+    </section>
+
+    <section class="section section--navy">
+      <div class="container split">
+        <div>
+          <span class="overline">Contact</span>
+          <h2>Book your appointment</h2>
+          <hr class="rule">
+          <p class="lead">Message our team on WhatsApp and we will find a time that fits your routine. We speak English, Japanese and Portuguese.</p>
+          <p><a class="btn btn--ghost btn--lg" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Message us on WhatsApp</a></p>
+        </div>
+        <address class="bloco-contato">
+          <p><strong>Address</strong><br>{{ site_endereco_rua }}<br>{{ site_endereco_bairro }} &middot; {{ site_endereco_cidade }}/{{ site_endereco_uf }}</p>
+          <p><strong>Opening hours</strong><br>Monday to Friday, 9am – 7pm<br>Saturday, 9am – 1pm</p>
+          <p><a href="{{ site_maps_url }}" target="_blank" rel="noopener">Open in Google Maps</a><br>
+             <a href="{{ prefixo }}en/contact.html">Contact page</a></p>
+        </address>
       </div>
     </section>

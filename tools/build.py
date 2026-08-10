@@ -119,14 +119,23 @@ def descobrir_paginas(raiz: Path) -> list[Pagina]:
     return paginas
 
 
-def _ler_partials(raiz: Path) -> dict[str, str]:
-    """Le os partials. A chave usa underscore; o arquivo, hifen."""
+def _ler_partials(raiz: Path, idioma: str = "pt") -> dict[str, str]:
+    """Le os partials. A chave usa underscore; o arquivo, hifen.
+
+    `header-en.html` tem precedencia sobre `header.html` em paginas com
+    lang="en". Sem contraparte traduzida, cai no padrao — assim so os
+    partials que precisam de traducao sao duplicados.
+    """
     pasta = raiz / "src" / "partials"
     partials: dict[str, str] = {}
     for nome in ORDEM_PARTIALS:
-        arquivo = pasta / f"{nome.replace('_', '-')}.html"
-        if not arquivo.exists():
-            arquivo = pasta / f"{nome}.html"
+        base = nome.replace("_", "-")
+        candidatos = [
+            pasta / f"{base}-{idioma}.html",
+            pasta / f"{base}.html",
+            pasta / f"{nome}.html",
+        ]
+        arquivo = next(c for c in candidatos if c.exists())
         partials[nome] = arquivo.read_text(encoding="utf-8")
     return partials
 
@@ -212,7 +221,7 @@ def _montar_alternates(base_url: str, url: str, lang: str, meta: dict) -> str:
 def construir(raiz: Path) -> dict[str, str]:
     """Devolve {caminho_relativo: conteudo} de tudo que deve existir no disco."""
     dados = carregar_dados(raiz)
-    partials = _ler_partials(raiz)
+    partials_por_idioma: dict[str, dict[str, str]] = {}
     layouts = {
         p.stem: p.read_text(encoding="utf-8")
         for p in (raiz / "src" / "layouts").glob("*.html")
@@ -222,9 +231,13 @@ def construir(raiz: Path) -> dict[str, str]:
     saida: dict[str, str] = {}
     for pagina in paginas:
         lang = pagina.meta.get("lang", "pt-BR")
+        idioma = lang.split("-")[0]
+        if idioma not in partials_por_idioma:
+            partials_por_idioma[idioma] = _ler_partials(raiz, idioma)
+        partials = partials_por_idioma[idioma]
         ctx: dict = {
             **dados,
-            **carregar_conteudo(raiz, lang.split("-")[0]),
+            **carregar_conteudo(raiz, idioma),
             **pagina.meta,
             "lang": lang,
             "url": pagina.url,

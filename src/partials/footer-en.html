@@ -1,0 +1,25 @@
+<footer class="site-footer">
+    <div class="container site-footer__grid">
+      <div>
+        <img class="logo-marca" src="{{ prefixo }}assets/fukuoka-dental-clinic-transparente.svg"
+             alt="{{ site_nome }}" width="1372" height="372" loading="lazy" decoding="async">
+        <p class="site-footer__tagline">Excellence inspired by Japanese precision. Care centred on people.</p>
+      </div>
+      <address class="site-footer__col">
+        <h2 class="site-footer__titulo">Where to find us</h2>
+        <p>{{ site_endereco_rua }}<br>{{ site_endereco_bairro }} &middot; {{ site_endereco_cidade }}/{{ site_endereco_uf }}<br>{{ site_endereco_cep }}</p>
+        <p><a href="{{ site_maps_url }}" target="_blank" rel="noopener">Open in Google Maps</a></p>
+      </address>
+      <div class="site-footer__col">
+        <h2 class="site-footer__titulo">Opening hours</h2>
+        <p>Monday to Friday, 9am – 7pm<br>Saturday, 9am – 1pm</p>
+        <p><a href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">{{ site_telefone }}</a><br>
+           <a href="{{ site_instagram_url }}" target="_blank" rel="noopener">{{ site_instagram_handle }}</a></p>
+      </div>
+    </div>
+    <div class="container site-footer__base">
+      <p>&copy; {{ site_ano }} {{ site_nome }}. All rights reserved.</p>
+      <p>Dentist in charge: {{ site_responsavel }} &middot; {{ site_cro }}</p>
+      <p><a href="{{ prefixo }}privacidade.html">Privacy Policy</a></p>
+    </div>
+  </footer>

@@ -6,13 +6,26 @@ lang: en
 noindex: true
 alternate_pt: filosofia.html
 ---
-    <section class="section">
-      <div class="container container--narrow">
+    <article class="section">
+      <div class="container container--narrow manifesto">
         <span class="overline">Manifesto</span>
         <h1>Our Philosophy</h1>
         <hr class="rule">
-        <p class="lead">We believe a smile goes far beyond aesthetics. It reflects health, confidence, self-esteem and a genuine expression of well-being.</p>
-        <p>Inspired by Japanese tradition, we value precision, discipline, the continuous pursuit of excellence and meticulous care in every detail. For us, excellence is not a destination but a permanent standard of conduct.</p>
-        <p class="aviso" role="note">The full English translation of our manifesto is being prepared. Please <a href="{{ prefixo }}filosofia.html">read the Portuguese version</a>.</p>
+        {{ content_philosophy }}
+        <footer class="manifesto__assinatura">
+          <img class="logo-marca logo-marca--assinatura"
+               src="{{ prefixo }}assets/fukuoka-dental-clinic-escura.svg"
+               alt="{{ site_nome }}" width="1372" height="372" loading="lazy" decoding="async">
+          <p>Excellence inspired by Japanese precision.<br>Care centred on people.</p>
+        </footer>
+      </div>
+    </article>
+
+    <section class="section section--navy">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <h2>See our values</h2>
+        <hr class="rule">
+        <p class="lead">Five principles that guide every clinical decision.</p>
+        <p><a class="btn btn--ghost" href="{{ prefixo }}en/values.html">View the values</a></p>
       </div>
     </section>

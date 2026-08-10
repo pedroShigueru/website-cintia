@@ -232,6 +232,21 @@ class TestContextoDePagina:
         assert "en/index.html" not in saida["sitemap.xml"]
         assert "<loc>https://exemplo.com.br/</loc>" in saida["sitemap.xml"]
 
+    def test_partial_traduzido_tem_precedencia(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "header-en.html").write_text(
+            "<header>EN</header>", encoding="utf-8"
+        )
+        en = raiz / "src" / "pages" / "en"
+        en.mkdir()
+        (en / "index.html").write_text(
+            "---\ntitle: Home EN\nlang: en\n---\n<main>hi</main>", encoding="utf-8"
+        )
+        saida = build.construir(raiz)
+        assert "<header>EN</header>" in saida["en/index.html"]
+        # Sem contraparte traduzida, a pagina PT segue com o partial padrao.
+        assert "<header>Fukuoka" in saida["index.html"]
+
     def test_menu_marca_a_pagina_atual(self, tmp_path):
         raiz = _montar_projeto(tmp_path)
         (raiz / "src" / "partials" / "header.html").write_text(

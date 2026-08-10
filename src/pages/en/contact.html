@@ -14,6 +14,7 @@ alternate_pt: contato.html
           <hr class="rule">
           <p class="lead">We are on Avenida Paulista, São Paulo. We speak Portuguese, Japanese and English.</p>
         </div>
+
         <div class="contato-grid">
           <div>
             <h2>Booking</h2>
@@ -22,13 +23,17 @@ alternate_pt: contato.html
               <a class="btn btn--primary" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Message us on WhatsApp</a>
               <a class="btn btn--ghost" href="{{ site_maps_url }}" target="_blank" rel="noopener">Get directions</a>
             </p>
-            <p class="aviso" role="note">The full English version of this site is being prepared. <a href="{{ prefixo }}contato.html">Portuguese version</a>.</p>
+
+            <h2>Care in other languages</h2>
+            <p>Appointments can be conducted in Portuguese, Japanese or English. <a href="{{ prefixo }}en/japanese-speaking-dentist.html" lang="ja">日本語での対応について</a>.</p>
           </div>
+
           <address class="contato-info">
             <h2>Address</h2>
-            <p>{{ site_endereco_rua }}<br>{{ site_endereco_bairro }}<br>{{ site_endereco_cidade }}/{{ site_endereco_uf }}</p>
+            <p>{{ site_endereco_rua }}<br>{{ site_endereco_bairro }}<br>{{ site_endereco_cidade }}/{{ site_endereco_uf }} &middot; {{ site_endereco_cep }}</p>
 
             <h2>Opening hours</h2>
+            <!-- TROCAR: confirmar os horários reais de atendimento -->
             <ul class="horarios">
               <li><span>Monday to Friday</span><span>9am – 7pm</span></li>
               <li><span>Saturday</span><span>9am – 1pm</span></li>
@@ -38,9 +43,25 @@ alternate_pt: contato.html
             <h2>Channels</h2>
             <p>
               <a href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">{{ site_telefone }}</a><br>
-              <a href="mailto:{{ site_email }}">{{ site_email }}</a>
+              <a href="mailto:{{ site_email }}">{{ site_email }}</a><br>
+              <a href="{{ site_instagram_url }}" target="_blank" rel="noopener">{{ site_instagram_handle }}</a>
             </p>
           </address>
         </div>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Location</span>
+          <h2>Getting here</h2>
+          <hr class="rule">
+        </div>
+        <a class="mapa" href="{{ site_maps_url }}" target="_blank" rel="noopener">
+          <img src="{{ prefixo }}assets/mapa.webp" alt="Map showing the clinic location on Avenida Paulista" width="1920" height="1080" loading="lazy" decoding="async">
+          <span class="mapa__selo">Open in Google Maps</span>
+        </a>
+        <p class="mapa__nota">We use a static image rather than an embedded map so the page stays fast. The link opens Google Maps.</p>
       </div>
     </section>

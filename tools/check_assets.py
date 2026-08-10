@@ -32,6 +32,9 @@ def main() -> int:
         base = posixpath.dirname(pagina)
         for ref in REFERENCIA.findall(COMENTARIO.sub("", html)):
             total += 1
+            ref = ref.split("#", 1)[0].split("?", 1)[0]  # ancora nao e arquivo
+            if not ref:
+                continue
             # Caminho absoluto: a 404 usa, porque e servida sob qualquer URL.
             partida = "" if ref.startswith("/") else base
             alvo = posixpath.normpath(

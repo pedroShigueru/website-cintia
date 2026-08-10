@@ -187,6 +187,9 @@ def test_nenhum_link_interno_quebrado(saida, paginas):
             alvo = item.get("href", "")
             if not alvo or alvo.startswith(("http", "#", "mailto:", "tel:", "data:")):
                 continue
+            alvo = alvo.split("#", 1)[0].split("?", 1)[0]  # ancora nao e arquivo
+            if not alvo:
+                continue
             # A 404 usa caminho absoluto: ela e servida sob qualquer URL.
             partida = "" if alvo.startswith("/") else base
             resolvido = posixpath.normpath(

@@ -1,18 +1,94 @@
 ---
 title: About Fukuoka Dental Clinic and Dr. Cíntia | Avenida Paulista
-description: Learn about Fukuoka Dental Clinic on Avenida Paulista, São Paulo: our team, our facilities and the mission behind every appointment.
+description: Learn about Fukuoka Dental Clinic on Avenida Paulista, São Paulo: the dentist in charge, how we work and the mission behind every appointment.
 og_type: article
 lang: en
 noindex: true
 alternate_pt: sobre.html
 ---
     <section class="section">
-      <div class="container container--narrow">
-        <span class="overline">About</span>
-        <h1>A clinic built on precision and listening</h1>
+      <div class="container split split--invertido">
+        <div>
+          <span class="overline">About</span>
+          <h1>A clinic built on precision and listening</h1>
+          <hr class="rule">
+          <p class="lead">Fukuoka Dental Clinic was founded on the conviction that excellent dentistry requires two things in equal measure: technical rigour and time to understand each person.</p>
+          <p>Inspired by Japanese tradition, the clinic works to a standard in which meticulous attention to detail is not a differentiator but the baseline. It shows in the digital planning that precedes every procedure, in the preference for minimally invasive approaches, and in the way each stage is explained before it is carried out.</p>
+        </div>
+        <figure class="figura-emoldurada">
+          <img src="{{ prefixo }}assets/clinica.webp" alt="Reception area at Fukuoka Dental Clinic" width="1920" height="1080" loading="lazy" decoding="async">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section--navy">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <span class="overline">Mission</span>
+        <h2>Dentistry has the power to transform lives</h2>
         <hr class="rule">
-        <p class="lead">Fukuoka Dental Clinic was founded on the conviction that excellent dentistry requires two things in equal measure: technical rigour and time to understand each person.</p>
-        <p class="aviso" role="note">The full English version of this page is being prepared. Please <a href="{{ prefixo }}sobre.html">read the Portuguese version</a> or contact us directly.</p>
-        <p><a class="btn btn--primary" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Book an appointment</a></p>
+        <div class="texto-corrido texto-corrido--claro">
+          {{ content_mission }}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <figure class="figura-emoldurada">
+          <img src="{{ prefixo }}assets/dra.webp" alt="Dr. Cíntia, dentist in charge at Fukuoka Dental Clinic" width="800" height="1000" loading="lazy" decoding="async">
+        </figure>
+        <div class="perfil">
+          <span class="overline">Dentist in charge</span>
+          <h2>Dr. Cíntia <!-- TROCAR: sobrenome --></h2>
+          <hr class="rule">
+          <p class="perfil__registro">{{ site_cro }}</p>
+          <p>Every patient arrives with a history and a reason. Time spent listening comes before any treatment proposal, because a plan is only a good plan when it fits the life of the person receiving it.</p>
+          <!-- TROCAR: parágrafo com a formação da Dra., instituição, ano e trajetória.
+               Traduzir a partir do texto validado em português. -->
+          <h3>Education and specialisations</h3>
+          <ul class="credenciais">
+            <li><!-- TROCAR: graduação — instituição e ano --></li>
+            <li><!-- TROCAR: especialização 1 --></li>
+            <li><!-- TROCAR: especialização 2 --></li>
+            <li><!-- TROCAR: certificações e credenciamentos --></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">How we work</span>
+          <h2>Three stages, no surprises</h2>
+          <hr class="rule">
+        </div>
+        <ol class="linha-tempo">
+          <li>
+            <span class="linha-tempo__num" aria-hidden="true">01</span>
+            <h3>Assessment</h3>
+            <p>Clinical examination, imaging and digital scanning, with time set aside to understand what you expect from treatment.</p>
+          </li>
+          <li>
+            <span class="linha-tempo__num" aria-hidden="true">02</span>
+            <h3>Personalised plan</h3>
+            <p>Options, stages and timelines presented before any decision. You choose with the information in hand.</p>
+          </li>
+          <li>
+            <span class="linha-tempo__num" aria-hidden="true">03</span>
+            <h3>Treatment and follow-up</h3>
+            <p>Guided technology and periodic reviews, including after treatment is complete.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <span class="overline">Philosophy</span>
+        <h2>What guides us</h2>
+        <hr class="rule">
+        <p class="lead">Our practice is guided by ethics, transparency and a commitment to preserving the natural structure of the teeth.</p>
+        <p><a class="btn btn--ghost" href="{{ prefixo }}en/philosophy.html">Read the manifesto</a></p>
       </div>
     </section>
