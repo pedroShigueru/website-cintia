@@ -85,6 +85,43 @@ def test_toda_imagem_tem_alt_e_dimensoes(paginas):
     assert problemas == []
 
 
+def test_dimensoes_declaradas_batem_com_o_arquivo(paginas):
+    """width/height errados reservam o espaco errado e causam CLS."""
+    from pathlib import Path
+
+    try:
+        from PIL import Image
+    except ImportError:  # pragma: no cover
+        import pytest
+
+        pytest.skip("Pillow ausente")
+
+    raiz = Path(__file__).resolve().parents[1]
+    cache: dict[str, tuple[int, int]] = {}
+    problemas = []
+    for url, p in paginas.items():
+        for img in p.imgs:
+            nome = img.get("src", "").rsplit("/", 1)[-1]
+            caminho = raiz / "assets" / nome
+            if not nome or nome.endswith(".svg") or not caminho.exists():
+                continue
+            if nome not in cache:
+                cache[nome] = Image.open(caminho).size
+            real_w, real_h = cache[nome]
+            if (img.get("width"), img.get("height")) != (str(real_w), str(real_h)):
+                problemas.append(
+                    (url, nome, f'declarado {img.get("width")}x{img.get("height")}',
+                     f"real {real_w}x{real_h}")
+                )
+    assert problemas == []
+
+
+def test_nenhuma_referencia_a_jpg_remanescente(html_bruto):
+    """Os assets foram convertidos para WebP; .jpg indica referencia esquecida."""
+    sobras = [url for url, texto in html_bruto.items() if ".jpg" in texto]
+    assert sobras == []
+
+
 def test_json_ld_e_valido(paginas):
     for url, p in paginas.items():
         for bloco in p.jsonld:
