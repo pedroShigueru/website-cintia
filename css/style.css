@@ -285,6 +285,10 @@ p + p { margin-top: 1.25em; }
 .texto-corrido--claro p { font-size: 1.0625rem; }
 .centralizado { text-align: center; margin-top: 3rem; }
 
+/* Respiro entre um bloco de texto e o botao que o encerra. */
+.texto-corrido + p,
+p:has(> .btn:only-child) { margin-top: 2.75rem; }
+
 /* ===== Cards de tratamento ===== */
 .tratamentos-grid { display: grid; gap: 1.5rem; }
 @media (min-width: 680px) { .tratamentos-grid { grid-template-columns: repeat(2, 1fr); } }

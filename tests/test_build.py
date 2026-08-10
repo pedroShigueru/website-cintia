@@ -232,6 +232,17 @@ class TestContextoDePagina:
         assert "en/index.html" not in saida["sitemap.xml"]
         assert "<loc>https://exemplo.com.br/</loc>" in saida["sitemap.xml"]
 
+    def test_front_matter_aceita_variaveis(self, tmp_path):
+        """Evita duplicar endereco e telefone no JSON-LD de cada pagina."""
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "pages" / "index.html").write_text(
+            "---\ntitle: {{ site_nome }} - Home\n---\n<main>x</main>",
+            encoding="utf-8",
+        )
+        html = build.construir(raiz)["index.html"]
+        assert "<title>Fukuoka - Home</title>" in html
+        assert "{{" not in html
+
     def test_partial_traduzido_tem_precedencia(self, tmp_path):
         raiz = _montar_projeto(tmp_path)
         (raiz / "src" / "partials" / "header-en.html").write_text(

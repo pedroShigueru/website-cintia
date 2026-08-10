@@ -261,6 +261,12 @@ def construir(raiz: Path) -> dict[str, str]:
         for chave in ("classe_body", "jsonld"):
             ctx.setdefault(chave, "")
 
+        # O front-matter pode usar {{ }}. Sem isso, um JSON-LD teria de
+        # repetir endereco e telefone em vez de referenciar site.json.
+        for chave, valor in pagina.meta.items():
+            if isinstance(valor, str) and "{{" in valor:
+                ctx[chave] = render(valor, ctx)
+
         ctx["conteudo"] = render(pagina.corpo, ctx)
         for nome in ORDEM_PARTIALS:
             ctx[nome] = render(partials[nome], ctx)
