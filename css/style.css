@@ -486,3 +486,8 @@ p + p { margin-top: 1.25em; }
 .logo-marca--header { width: clamp(8.75rem, 20vw, 11rem); max-width: none; }
 .logo-marca--assinatura { width: min(13rem, 60%); margin-bottom: 1.5rem; }
 .site-footer .logo-marca { margin-bottom: 1.5rem; }
+
+/* ===== Atalhos da pagina 404 ===== */
+.atalhos-404 { margin-block: 2.5rem 3rem; }
+.atalhos-404 a { color: var(--navy); border-bottom: 1px solid var(--gold); }
+.atalhos-404 a:hover { color: var(--gold-text); }

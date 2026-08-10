@@ -232,6 +232,39 @@ class TestContextoDePagina:
         assert "en/index.html" not in saida["sitemap.xml"]
         assert "<loc>https://exemplo.com.br/</loc>" in saida["sitemap.xml"]
 
+    def test_menu_marca_a_pagina_atual(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "header.html").write_text(
+            '<a href="{{ prefixo }}index.html" class="logo">L</a>'
+            '<nav class="site-nav">'
+            '<a href="{{ prefixo }}sobre.html">Sobre</a>'
+            '<a href="{{ prefixo }}tratamentos.html">Tratamentos</a>'
+            "</nav>",
+            encoding="utf-8",
+        )
+        (raiz / "src" / "pages" / "sobre.html").write_text(
+            "---\ntitle: Sobre\n---\n<main>x</main>", encoding="utf-8"
+        )
+        saida = build.construir(raiz)
+        assert '<a href="sobre.html" aria-current="page">Sobre</a>' in saida["sobre.html"]
+        assert 'href="tratamentos.html" aria-current' not in saida["sobre.html"]
+        # O logo aponta para a home mas nao faz parte do menu.
+        assert '<a href="index.html" class="logo">' in saida["index.html"]
+
+    def test_menu_marca_a_secao_pai_em_subpaginas(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "header.html").write_text(
+            '<nav class="site-nav"><a href="{{ prefixo }}tratamentos.html">T</a></nav>',
+            encoding="utf-8",
+        )
+        sub = raiz / "src" / "pages" / "tratamentos"
+        sub.mkdir()
+        (sub / "invisalign.html").write_text(
+            "---\ntitle: Inv\n---\n<main>x</main>", encoding="utf-8"
+        )
+        html = build.construir(raiz)["tratamentos/invisalign.html"]
+        assert '<a href="../tratamentos.html" aria-current="page">T</a>' in html
+
     def test_seletor_de_idioma_marca_a_lingua_ativa(self, tmp_path):
         raiz = _montar_projeto(tmp_path)
         (raiz / "src" / "partials" / "header.html").write_text(

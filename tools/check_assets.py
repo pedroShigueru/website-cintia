@@ -32,7 +32,11 @@ def main() -> int:
         base = posixpath.dirname(pagina)
         for ref in REFERENCIA.findall(COMENTARIO.sub("", html)):
             total += 1
-            alvo = posixpath.normpath(posixpath.join(base, ref)).replace("\\", "/")
+            # Caminho absoluto: a 404 usa, porque e servida sob qualquer URL.
+            partida = "" if ref.startswith("/") else base
+            alvo = posixpath.normpath(
+                posixpath.join(partida, ref.lstrip("/"))
+            ).replace("\\", "/")
             if alvo in gerados or (RAIZ / alvo).exists():
                 continue
             faltando.append((pagina, ref))

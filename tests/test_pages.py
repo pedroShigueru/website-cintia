@@ -150,7 +150,11 @@ def test_nenhum_link_interno_quebrado(saida, paginas):
             alvo = item.get("href", "")
             if not alvo or alvo.startswith(("http", "#", "mailto:", "tel:", "data:")):
                 continue
-            resolvido = posixpath.normpath(posixpath.join(base, alvo)).replace("\\", "/")
+            # A 404 usa caminho absoluto: ela e servida sob qualquer URL.
+            partida = "" if alvo.startswith("/") else base
+            resolvido = posixpath.normpath(
+                posixpath.join(partida, alvo.lstrip("/"))
+            ).replace("\\", "/")
             if resolvido in gerados or (raiz / resolvido).exists():
                 continue
             problemas.append((url, alvo, resolvido))

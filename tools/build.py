@@ -153,6 +153,33 @@ def _montar_robots(base_url: str) -> str:
     return f"User-agent: *\nAllow: /\n\nSitemap: {base_url.rstrip('/')}/sitemap.xml\n"
 
 
+MENU = re.compile(r'(<nav class="site-nav".*?</nav>)', re.DOTALL)
+
+
+def _marcar_pagina_atual(header: str, url: str, prefixo: str) -> str:
+    """Adiciona aria-current="page" ao item de menu da pagina em exibicao.
+
+    Uma subpagina marca a secao pai: tratamentos/invisalign.html acende
+    "Tratamentos". Restrito ao <nav class="site-nav"> para nao marcar o logo,
+    que aponta para a home em todas as paginas.
+    """
+    alvos = {url}
+    if "/" in url:
+        secao = url.split("/")[0]
+        alvos.add(f"{secao}.html")        # tratamentos/x.html -> tratamentos.html
+        alvos.add(f"{secao}/index.html")  # blog/x.html       -> blog/index.html
+
+    def marcar(bloco: re.Match) -> str:
+        texto = bloco.group(1)
+        for alvo in sorted(alvos, key=len, reverse=True):
+            href = f'href="{prefixo}{alvo}"'
+            if href in texto:
+                return texto.replace(href, f"{href} aria-current=\"page\"", 1)
+        return texto
+
+    return MENU.sub(marcar, header)
+
+
 def _e_indexavel(pagina: Pagina) -> bool:
     return pagina.meta.get("noindex", "").lower() not in {"true", "sim", "1"}
 
@@ -204,7 +231,9 @@ def construir(raiz: Path) -> dict[str, str]:
             "url_absoluta": _url_absoluta(dados["site_base_url"], pagina.url),
             # Caminho relativo ate a raiz. Mantem os links corretos em
             # subpastas sem depender de o site estar servido na raiz do dominio.
-            "prefixo": "../" * pagina.url.count("/"),
+            # O front-matter pode sobrescrever: a 404 precisa de caminho
+            # absoluto, porque e servida sob qualquer URL inexistente.
+            "prefixo": pagina.meta.get("prefixo", "../" * pagina.url.count("/")),
             "alternates": _montar_alternates(
                 dados["site_base_url"], pagina.url, lang, pagina.meta
             ),
@@ -222,6 +251,9 @@ def construir(raiz: Path) -> dict[str, str]:
         ctx["conteudo"] = render(pagina.corpo, ctx)
         for nome in ORDEM_PARTIALS:
             ctx[nome] = render(partials[nome], ctx)
+        ctx["header"] = _marcar_pagina_atual(
+            ctx["header"], pagina.url, ctx["prefixo"]
+        )
         layout = layouts[pagina.meta.get("layout", "base")]
         saida[pagina.url] = render(layout, ctx)
 
