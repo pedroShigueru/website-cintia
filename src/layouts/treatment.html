@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  {{ head }}
+</head>
+<body class="{{ classe_body }}">
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  {{ header }}
+  <main id="conteudo">
+    <nav class="trilha" aria-label="Você está aqui">
+      <div class="container">
+        <a href="{{ prefixo }}index.html">Início</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ prefixo }}tratamentos.html">Tratamentos</a>
+      </div>
+    </nav>
+
+    <section class="section tratamento-hero">
+      <div class="container split split--invertido">
+        <div>
+          <span class="overline">Tratamento</span>
+          <h1>{{ h1 }}</h1>
+          <hr class="rule">
+          <p class="lead">{{ chamada }}</p>
+          <p><a class="btn btn--primary" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Agendar avaliação</a></p>
+        </div>
+        <figure class="figura-emoldurada">
+          <img src="{{ prefixo }}assets/{{ imagem }}" alt="{{ imagem_alt }}" width="800" height="600" fetchpriority="high" decoding="async">
+        </figure>
+      </div>
+    </section>
+
+{{ conteudo }}
+
+    <section class="section section--navy">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <span class="overline">Próximo passo</span>
+        <h2>Avalie o seu caso</h2>
+        <hr class="rule">
+        <p class="lead">Cada indicação depende de exame clínico. Agende uma avaliação para saber o que se aplica a você.</p>
+        <p><a class="btn btn--ghost btn--lg" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+      </div>
+    </section>
+  </main>
+  {{ footer }}
+  <div class="cta-bar-mobile">
+    {{ cta_bar }}
+  </div>
+  <script src="{{ prefixo }}js/main.js" defer></script>
+</body>
+</html>

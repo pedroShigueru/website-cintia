@@ -1,23 +1,51 @@
-"""Verifica que toda referência local no index.html existe em disco."""
+"""Verifica que toda referencia local do site gerado existe em disco.
+
+Roda contra a saida de build.construir(), nao contra o disco: assim uma
+referencia quebrada e detectada antes de os arquivos serem gravados.
+"""
+import posixpath
 import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-OPTIONAL = {"assets/hero.mp4"}  # vídeo real entra depois; o poster cobre
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-html = (ROOT / "index.html").read_text(encoding="utf-8")
-refs = re.findall(
-    r'(?:src|href|data-src|poster)="(?!https?:|data:|#|mailto:|tel:)([^"]+)"', html
+import build  # noqa: E402
+
+RAIZ = build.RAIZ
+REFERENCIA = re.compile(
+    r'(?:src|href|data-src|poster)="(?!https?:|data:|#|mailto:|tel:)([^"]+)"'
 )
-missing = [r for r in refs if not (ROOT / r).exists() and r not in OPTIONAL]
-skipped = [r for r in refs if r in OPTIONAL and not (ROOT / r).exists()]
+# Referencia dentro de comentario nao e carregada pelo navegador; nao verificamos.
+COMENTARIO = re.compile(r"<!--.*?-->", re.DOTALL)
 
-for r in skipped:
-    print(f"AVISO (opcional, ainda não existe): {r}")
-if missing:
-    print("FALTANDO:")
-    for r in missing:
-        print(f" - {r}")
-    sys.exit(1)
-print(f"OK — {len(refs)} referências locais verificadas.")
+
+def main() -> int:
+    saida = build.construir(RAIZ)
+    gerados = set(saida)
+
+    faltando: list[tuple[str, str]] = []
+    total = 0
+    for pagina, html in saida.items():
+        if not pagina.endswith(".html"):
+            continue
+        base = posixpath.dirname(pagina)
+        for ref in REFERENCIA.findall(COMENTARIO.sub("", html)):
+            total += 1
+            alvo = posixpath.normpath(posixpath.join(base, ref)).replace("\\", "/")
+            if alvo in gerados or (RAIZ / alvo).exists():
+                continue
+            faltando.append((pagina, ref))
+
+    if faltando:
+        print("FALTANDO:")
+        for pagina, ref in sorted(set(faltando)):
+            print(f" - {ref}  (referenciado em {pagina})")
+        return 1
+
+    print(f"OK - {total} referencias locais verificadas em {len(gerados)} arquivos.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

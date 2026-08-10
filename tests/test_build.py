@@ -1,0 +1,248 @@
+"""Testes do gerador estatico."""
+import json
+import sys
+import textwrap
+from pathlib import Path
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
+
+import build  # noqa: E402
+
+
+class TestParseFrontMatter:
+    def test_sem_front_matter_devolve_corpo_intacto(self):
+        meta, corpo = build.parse_front_matter("<p>ola</p>")
+        assert meta == {}
+        assert corpo == "<p>ola</p>"
+
+    def test_extrai_pares_chave_valor(self):
+        texto = "---\ntitle: Home\nlayout: base\n---\n<p>ola</p>"
+        meta, corpo = build.parse_front_matter(texto)
+        assert meta == {"title": "Home", "layout": "base"}
+        assert corpo == "<p>ola</p>"
+
+    def test_valor_pode_conter_dois_pontos(self):
+        texto = "---\ntitle: Invisalign: como funciona\n---\nx"
+        meta, _ = build.parse_front_matter(texto)
+        assert meta["title"] == "Invisalign: como funciona"
+
+    def test_ignora_linhas_em_branco_e_comentarios(self):
+        texto = "---\n\n# um comentario\ntitle: Home\n---\nx"
+        meta, _ = build.parse_front_matter(texto)
+        assert meta == {"title": "Home"}
+
+    def test_front_matter_nao_fechado_e_erro(self):
+        with pytest.raises(ValueError, match="nao fechado"):
+            build.parse_front_matter("---\ntitle: Home\n<p>ola</p>")
+
+
+class TestRender:
+    def test_substitui_placeholder(self):
+        assert build.render("<h1>{{ titulo }}</h1>", {"titulo": "Ola"}) == "<h1>Ola</h1>"
+
+    def test_tolera_espacos_variados(self):
+        ctx = {"a": "1"}
+        assert build.render("{{a}}{{  a  }}", ctx) == "11"
+
+    def test_placeholder_ausente_levanta_keyerror(self):
+        with pytest.raises(KeyError, match="telefone"):
+            build.render("{{ telefone }}", {})
+
+    def test_erro_lista_todas_as_chaves_ausentes(self):
+        with pytest.raises(KeyError) as exc:
+            build.render("{{ a }} {{ b }}", {})
+        assert "a" in str(exc.value) and "b" in str(exc.value)
+
+    def test_nao_confunde_chave_de_css(self):
+        css = "a { color: red } {{ cor }}"
+        assert build.render(css, {"cor": "azul"}) == "a { color: red } azul"
+
+
+def _montar_projeto(tmp_path: Path) -> Path:
+    """Cria um projeto minimo em disco para exercitar o pipeline."""
+    (tmp_path / "src" / "data").mkdir(parents=True)
+    (tmp_path / "src" / "partials").mkdir(parents=True)
+    (tmp_path / "src" / "layouts").mkdir(parents=True)
+    (tmp_path / "src" / "pages").mkdir(parents=True)
+    (tmp_path / "src" / "content" / "pt").mkdir(parents=True)
+
+    (tmp_path / "src" / "data" / "site.json").write_text(
+        json.dumps({"nome": "Fukuoka", "base_url": "https://exemplo.com.br"}),
+        encoding="utf-8",
+    )
+    (tmp_path / "src" / "data" / "nav.json").write_text(
+        json.dumps({"principal": [{"rotulo": "Home", "url": "index.html"}]}),
+        encoding="utf-8",
+    )
+    (tmp_path / "src" / "partials" / "cta-bar.html").write_text(
+        "<nav>cta</nav>", encoding="utf-8"
+    )
+    (tmp_path / "src" / "partials" / "header.html").write_text(
+        "<header>{{ site_nome }}{{ cta_bar }}</header>", encoding="utf-8"
+    )
+    (tmp_path / "src" / "partials" / "footer.html").write_text(
+        "<footer>f</footer>", encoding="utf-8"
+    )
+    (tmp_path / "src" / "partials" / "head.html").write_text(
+        "<title>{{ title }}</title>", encoding="utf-8"
+    )
+    (tmp_path / "src" / "layouts" / "base.html").write_text(
+        '<html lang="{{ lang }}"><head>{{ head }}</head>'
+        "<body>{{ header }}{{ conteudo }}{{ footer }}</body></html>",
+        encoding="utf-8",
+    )
+    (tmp_path / "src" / "pages" / "index.html").write_text(
+        textwrap.dedent("""\
+            ---
+            title: Home
+            ---
+            <main>oi</main>"""),
+        encoding="utf-8",
+    )
+    (tmp_path / "src" / "content" / "pt" / "filosofia.html").write_text(
+        "<p>um</p>\n<!--resumo-->\n<p>dois</p>", encoding="utf-8"
+    )
+    return tmp_path
+
+
+class TestPipeline:
+    def test_carregar_dados_prefixa_site(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        dados = build.carregar_dados(raiz)
+        assert dados["site_nome"] == "Fukuoka"
+        assert dados["nav"]["principal"][0]["rotulo"] == "Home"
+
+    def test_conteudo_gera_resumo_ate_o_marcador(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        conteudo = build.carregar_conteudo(raiz, "pt")
+        assert "dois" in conteudo["content_filosofia"]
+        assert "dois" not in conteudo["content_filosofia_resumo"]
+        assert "um" in conteudo["content_filosofia_resumo"]
+
+    def test_url_derivada_do_caminho(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        sub = raiz / "src" / "pages" / "tratamentos"
+        sub.mkdir()
+        (sub / "invisalign.html").write_text(
+            "---\ntitle: Inv\n---\n<main>x</main>", encoding="utf-8"
+        )
+        urls = {p.url for p in build.descobrir_paginas(raiz)}
+        assert "tratamentos/invisalign.html" in urls
+
+    def test_construir_compoe_layout_e_partials(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        saida = build.construir(raiz)
+        html = saida["index.html"]
+        assert "<title>Home</title>" in html
+        assert "<header>Fukuoka<nav>cta</nav></header>" in html
+        assert "<main>oi</main>" in html
+        assert 'lang="pt-BR"' in html
+
+    def test_construir_gera_sitemap_e_robots(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        saida = build.construir(raiz)
+        assert "<loc>https://exemplo.com.br/</loc>" in saida["sitemap.xml"]
+        assert "Sitemap: https://exemplo.com.br/sitemap.xml" in saida["robots.txt"]
+
+    def test_escrever_e_idempotente(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        saida = build.construir(raiz)
+        primeira = build.escrever(raiz, saida)
+        segunda = build.escrever(raiz, saida)
+        assert "index.html" in primeira
+        assert segunda == []
+
+    def test_verificar_acusa_dessincronia(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        saida = build.construir(raiz)
+        assert build.verificar(raiz, saida) == ["index.html", "robots.txt", "sitemap.xml"]
+        build.escrever(raiz, saida)
+        assert build.verificar(raiz, saida) == []
+
+    def test_check_sai_com_1_quando_dessincronizado(self, tmp_path, monkeypatch):
+        raiz = _montar_projeto(tmp_path)
+        monkeypatch.setattr(build, "RAIZ", raiz)
+        assert build.main(["--check"]) == 1
+        assert build.main([]) == 0
+        assert build.main(["--check"]) == 0
+
+
+class TestContextoDePagina:
+    def test_prefixo_reflete_a_profundidade_da_url(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        sub = raiz / "src" / "pages" / "tratamentos"
+        sub.mkdir()
+        (sub / "invisalign.html").write_text(
+            '---\ntitle: Inv\n---\n<a href="{{ prefixo }}index.html">home</a>',
+            encoding="utf-8",
+        )
+        (raiz / "src" / "pages" / "index.html").write_text(
+            '---\ntitle: Home\n---\n<a href="{{ prefixo }}index.html">home</a>',
+            encoding="utf-8",
+        )
+        saida = build.construir(raiz)
+        assert 'href="index.html"' in saida["index.html"]
+        assert 'href="../index.html"' in saida["tratamentos/invisalign.html"]
+
+    def test_front_matter_opcional_tem_default_vazio(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "layouts" / "base.html").write_text(
+            '<body class="{{ classe_body }}">{{ jsonld }}{{ conteudo }}</body>',
+            encoding="utf-8",
+        )
+        assert 'class=""' in build.construir(raiz)["index.html"]
+
+    def test_alternates_geram_hreflang_com_x_default(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "pages" / "index.html").write_text(
+            "---\ntitle: Home\nalternate_en: en/index.html\n---\n<main>oi</main>",
+            encoding="utf-8",
+        )
+        (raiz / "src" / "partials" / "head.html").write_text(
+            "<title>{{ title }}</title>{{ alternates }}", encoding="utf-8"
+        )
+        html = build.construir(raiz)["index.html"]
+        assert 'hreflang="pt-BR" href="https://exemplo.com.br/"' in html
+        assert 'hreflang="en" href="https://exemplo.com.br/en/index.html"' in html
+        assert 'hreflang="x-default" href="https://exemplo.com.br/"' in html
+
+    def test_sem_alternates_nao_emite_hreflang(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "head.html").write_text(
+            "<title>{{ title }}</title>{{ alternates }}", encoding="utf-8"
+        )
+        assert "hreflang" not in build.construir(raiz)["index.html"]
+
+    def test_noindex_emite_meta_robots_e_sai_do_sitemap(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "head.html").write_text(
+            "<title>{{ title }}</title>{{ meta_robots }}", encoding="utf-8"
+        )
+        en = raiz / "src" / "pages" / "en"
+        en.mkdir()
+        (en / "index.html").write_text(
+            "---\ntitle: Home EN\nlang: en\nnoindex: true\n---\n<main>hi</main>",
+            encoding="utf-8",
+        )
+        saida = build.construir(raiz)
+        assert '<meta name="robots" content="noindex, follow">' in saida["en/index.html"]
+        assert "meta name=\"robots\"" not in saida["index.html"]
+        assert "en/index.html" not in saida["sitemap.xml"]
+        assert "<loc>https://exemplo.com.br/</loc>" in saida["sitemap.xml"]
+
+    def test_seletor_de_idioma_marca_a_lingua_ativa(self, tmp_path):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "partials" / "header.html").write_text(
+            '<a {{ ativo_pt }}>PT</a><a {{ ativo_en }}>EN</a>', encoding="utf-8"
+        )
+        en = raiz / "src" / "pages" / "en"
+        en.mkdir()
+        (en / "index.html").write_text(
+            "---\ntitle: EN\nlang: en\n---\n<main>hi</main>", encoding="utf-8"
+        )
+        saida = build.construir(raiz)
+        assert '<a aria-current="true">PT</a><a >EN</a>' in saida["index.html"]
+        assert '<a ><a' not in saida["en/index.html"]
+        assert '<a aria-current="true">EN</a>' in saida["en/index.html"]

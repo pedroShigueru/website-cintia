@@ -1,0 +1,26 @@
+<footer class="site-footer">
+    <div class="container site-footer__grid">
+      <div>
+        <p class="logo logo--footer">
+          <span class="logo__nome">Fukuoka</span>
+          <span class="logo__sub">Dental Clinic</span>
+        </p>
+        <p class="site-footer__tagline">{{ site_tagline }}. Cuidado centrado nas pessoas.</p>
+      </div>
+      <address class="site-footer__col">
+        <h2 class="site-footer__titulo">Onde estamos</h2>
+        <p>{{ site_endereco_rua }}<br>{{ site_endereco_bairro }} &middot; {{ site_endereco_cidade }}/{{ site_endereco_uf }}<br>{{ site_endereco_cep }}</p>
+        <p><a href="{{ site_maps_url }}" target="_blank" rel="noopener">Ver no Google Maps</a></p>
+      </address>
+      <div class="site-footer__col">
+        <h2 class="site-footer__titulo">Atendimento</h2>
+        <p>{{ site_horario_semana }}<br>{{ site_horario_sabado }}</p>
+        <p><a href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">{{ site_telefone }}</a><br>
+           <a href="{{ site_instagram_url }}" target="_blank" rel="noopener">{{ site_instagram_handle }}</a></p>
+      </div>
+    </div>
+    <div class="container site-footer__base">
+      <p>&copy; {{ site_ano }} {{ site_nome }}. Todos os direitos reservados.</p>
+      <p>Responsável técnica: {{ site_responsavel }} &middot; {{ site_cro }}</p>
+    </div>
+  </footer>
