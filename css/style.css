@@ -472,3 +472,9 @@ p + p { margin-top: 1.25em; }
   font-size: .875rem; border-radius: var(--radius);
 }
 .mapa__nota { margin-top: 1rem; font-size: .8125rem; color: var(--ink-soft); text-align: center; }
+
+/* ===== Logo real (SVG) ===== */
+/* A versao transparente da o creme #DBD1C7 sobre navy: 9,20:1.
+   Nao usar em fundo claro: sobre off-white cai para 1,40:1. */
+.logo-marca { width: min(15rem, 70%); height: auto; }
+.site-footer .logo-marca { margin-bottom: 1.5rem; }
