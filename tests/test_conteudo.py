@@ -33,6 +33,27 @@ def test_nenhuma_expressao_vedada_pelo_cfo(html_bruto):
 
 
 @pytest.mark.xfail(
+    reason="Aguardando numero de WhatsApp, dominio e URL do Maps reais",
+    strict=False,
+)
+def test_nenhum_placeholder_critico_sobrou():
+    """Valores que sao URLs validas e por isso nao carregam a marca TROCAR.
+
+    Sem este teste eles passariam despercebidos numa busca por TROCAR, e o
+    site iria ao ar com todos os CTAs apontando para um numero inexistente.
+    """
+    site = json.loads((RAIZ / "src" / "data" / "site.json").read_text(encoding="utf-8"))
+    pendentes = []
+    if "5511000000000" in site["whatsapp_url"]:
+        pendentes.append("whatsapp_url: numero de exemplo, todos os CTAs vao para ele")
+    if "fukuokadentalclinic.com.br" in site["base_url"]:
+        pendentes.append("base_url: dominio presumido, usado em canonical/hreflang/sitemap")
+    if "query=Avenida+Paulista+Sao+Paulo" in site["maps_url"]:
+        pendentes.append("maps_url: busca generica, nao a ficha da clinica")
+    assert pendentes == [], "Placeholders criticos:\n  - " + "\n  - ".join(pendentes)
+
+
+@pytest.mark.xfail(
     reason="Aguardando endereco, CEP, telefone e coordenadas reais da clinica",
     strict=False,
 )
