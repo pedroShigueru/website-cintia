@@ -12,7 +12,7 @@
   "endereco_cidade": "São Paulo",
   "endereco_uf": "SP",
   "endereco_cep": "04004-070",
-  "maps_url": "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+Oswaldo+Cruz%2C+47+-+Para%C3%ADso%2C+S%C3%A3o+Paulo%2C+04004-070",
+  "maps_url": "https://www.google.com/maps/search/?api=1&query=-23.571948%2C-46.644056",
   "geo_lat": "-23.571948",
   "geo_lng": "-46.644056",
   "horario_semana": "Segunda a sexta, 9h às 19h",

@@ -47,10 +47,10 @@ def test_nenhum_placeholder_critico_sobrou():
         pendentes.append("whatsapp_url: numero de exemplo, todos os CTAs vao para ele")
     if "fukuokadentalclinic.com.br" in site["base_url"]:
         pendentes.append("base_url: dominio presumido, usado em canonical/hreflang/sitemap")
-    if "/maps/search/" in site["maps_url"]:
+    if "query=-23.571948" not in site["maps_url"]:
         pendentes.append(
-            "maps_url: busca por endereco. O ideal e o link da ficha no Google "
-            "Business, que mostra avaliacoes e horario"
+            "maps_url: nao aponta para as coordenadas da clinica. O ideal e o "
+            "link da ficha no Google Business, que mostra avaliacoes e horario"
         )
     assert pendentes == [], "Placeholders criticos:\n  - " + "\n  - ".join(pendentes)
 

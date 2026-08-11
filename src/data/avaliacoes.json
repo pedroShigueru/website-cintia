@@ -2,9 +2,9 @@
   "_comentario": "Avaliacoes reais do Perfil no Google, transcritas a mao. Para passar a atualizar sozinho, rode tools/fetch_reviews.py com GOOGLE_MAPS_API_KEY definida.",
   "nome_no_maps": "Fukuoka Dental Clinic – Paulista",
   "place_id": "",
-  "url_perfil": "https://www.google.com/maps/search/?api=1&query=Fukuoka+Dental+Clinic+Paulista",
+  "url_perfil": "https://www.google.com/maps/search/?api=1&query=-23.571948%2C-46.644056",
   "nota": 5.0,
-  "total": null,
+  "total": 29,
   "atualizado_em": "2026-08-11",
   "avaliacoes": [
     {
