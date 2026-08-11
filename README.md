@@ -65,11 +65,9 @@ py tools/fetch_reviews.py              # grava src/data/avaliacoes.json
 py tools/build.py                      # gera o HTML com as avaliações
 ```
 
-**Pré-requisitos**, uma vez só:
+**Pré-requisito**, uma vez só: uma chave de API no [Google Cloud Console](https://console.cloud.google.com/) com a **Places API (New)** habilitada. Restrinja a chave por API e por IP no console — o uso é cobrado na conta da clínica.
 
-1. `place_id` da clínica em `src/data/avaliacoes.json` — obtenha em [Place ID Finder](https://developers.google.com/maps/documentation/places/web-service/place-id)
-2. Chave de API no [Google Cloud Console](https://console.cloud.google.com/) com a **Places API (New)** habilitada
-3. Restrinja a chave por API e por IP no console — ela é sua e o uso é cobrado
+O `place_id` o script resolve sozinho a partir de `nome_no_maps` (hoje `Fukuoka Dental Clinic – Paulista`) e grava no JSON, então não é preciso procurá-lo à mão. Se o nome mudar no Maps, o `place_id` já gravado continua valendo — ele é estável.
 
 **Onde aparecem**, a partir de três chaves geradas pelo build:
 

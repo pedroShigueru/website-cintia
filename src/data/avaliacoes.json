@@ -1,7 +1,8 @@
 {
-  "_comentario": "Preenchido por tools/fetch_reviews.py a partir do Perfil da Empresa no Google. Nao editar a mao, exceto place_id e url_perfil.",
-  "place_id": "TROCAR: ChIJ... (ver README)",
-  "url_perfil": "TROCAR: URL do perfil no Google Maps",
+  "_comentario": "Preenchido por tools/fetch_reviews.py a partir do Perfil da Empresa no Google. Nao editar a mao, exceto nome_no_maps e place_id.",
+  "nome_no_maps": "Fukuoka Dental Clinic – Paulista",
+  "place_id": "",
+  "url_perfil": "",
   "nota": null,
   "total": null,
   "atualizado_em": null,
