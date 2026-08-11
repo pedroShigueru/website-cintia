@@ -176,16 +176,29 @@ def _estrelas(nota: float) -> str:
     return f'<span class="estrelas" aria-hidden="true">{marcas}</span>'
 
 
-def _cartao_avaliacao(av: dict) -> str:
+def _cartao_avaliacao(av: dict, resumido: bool = False) -> str:
+    """Um cartao de avaliacao. `resumido` limita a altura via CSS.
+
+    Avaliacoes reais variam muito de tamanho: uma de tres linhas ao lado de
+    uma de vinte desalinha a grade. Na Home elas ficam limitadas; na pagina
+    de depoimentos aparecem inteiras.
+    """
     autor = html_escape(str(av.get("autor", "")))
-    texto = html_escape(str(av.get("texto", "")))
     quando = html_escape(str(av.get("quando", "")))
     nota = float(av.get("nota", 5))
+    paragrafos = "".join(
+        f"<p>{html_escape(t.strip())}</p>"
+        for t in str(av.get("texto", "")).split("\n")
+        if t.strip()
+    )
+    classe = "avaliacao avaliacao--resumida" if resumido else "avaliacao"
+    # Sem data conhecida, o campo some em vez de deixar um espaco vazio.
+    rodape = f"<strong>{autor}</strong>" + (f"<span>{quando}</span>" if quando else "")
     return (
-        '<blockquote class="avaliacao">'
+        f'<blockquote class="{classe}">'
         f"{_estrelas(nota)}"
-        f"<p>{texto}</p>"
-        f"<footer><strong>{autor}</strong><span>{quando}</span></footer>"
+        f'<div class="avaliacao__texto">{paragrafos}</div>'
+        f"<footer>{rodape}</footer>"
         "</blockquote>"
     )
 
@@ -204,7 +217,9 @@ def _blocos_avaliacoes(dados: dict) -> dict[str, str]:
         return vazio
 
     nota_txt = f"{float(nota):.1f}".replace(".", ",")
-    total = av.get("total") or len(lista)
+    # Sem o total do perfil, nao inventamos um numero: o texto sai sem contagem.
+    total = av.get("total")
+    contagem = f"{total} avaliações no Google" if total else "avaliações no Google"
     perfil = av.get("url_perfil", "")
     botao = (
         f'<a class="btn btn--ghost" href="{perfil}" target="_blank" rel="noopener">'
@@ -214,10 +229,10 @@ def _blocos_avaliacoes(dados: dict) -> dict[str, str]:
     faixa = (
         '<div class="avaliacoes-resumo">'
         f'<p class="avaliacoes-nota"><strong>{nota_txt}</strong>{_estrelas(float(nota))}'
-        f'<span class="avaliacoes-total">{total} avaliações no Google</span></p>'
+        f'<span class="avaliacoes-total">{contagem}</span></p>'
         "</div>"
         '<div class="avaliacoes-grid">'
-        + "".join(_cartao_avaliacao(a) for a in lista[:DESTAQUES])
+        + "".join(_cartao_avaliacao(a, resumido=True) for a in lista[:DESTAQUES])
         + "</div>"
         f'<p class="centralizado">{botao}</p>'
     )
@@ -232,7 +247,7 @@ def _blocos_avaliacoes(dados: dict) -> dict[str, str]:
     selo = (
         f'<a class="avaliacoes-selo" href="{perfil}" target="_blank" rel="noopener">'
         f"{_estrelas(float(nota))}"
-        f"<span><strong>{nota_txt}</strong> &middot; {total} avaliações no Google</span>"
+        f"<span><strong>{nota_txt}</strong> &middot; {contagem}</span>"
         "</a>"
     )
 

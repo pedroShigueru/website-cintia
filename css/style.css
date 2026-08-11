@@ -556,3 +556,14 @@ p:has(> .btn:only-child) { margin-top: 2.75rem; }
 }
 .video-depo__play svg { width: 3.5rem; height: 3.5rem; }
 .cta-prova { margin-top: 1.5rem; }
+
+/* Cartoes de avaliacao com alturas iguais na Home, apesar de textos
+   de tamanhos muito diferentes. Na pagina de depoimentos vao inteiros. */
+.avaliacao { display: flex; flex-direction: column; }
+.avaliacao__texto { margin-top: 1rem; flex: 1; }
+.avaliacao__texto p { font-size: .9375rem; color: var(--ink); }
+.avaliacao__texto p + p { margin-top: .75em; }
+.avaliacao--resumida .avaliacao__texto {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 9;
+  line-clamp: 9; overflow: hidden;
+}

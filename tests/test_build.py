@@ -355,9 +355,9 @@ class TestAvaliacoes:
         })
         html = build.construir(raiz)["index.html"]
         faixa = html.split("avaliacoes-todas")[0]
-        assert faixa.count('class="avaliacao"') == 3
-        # A pagina de depoimentos mostra todas.
-        assert html.count('class="avaliacao"') == 3 + 5
+        # Na Home o texto e limitado; na listagem completa, nao.
+        assert faixa.count("avaliacao--resumida") == 3
+        assert html.count("<blockquote") == 3 + 5
 
     @pytest.mark.parametrize("nota,esperado", [(5.0, "5,0"), (4.9, "4,9"), (4.0, "4,0")])
     def test_nota_com_uma_casa_e_virgula(self, tmp_path, nota, esperado):
