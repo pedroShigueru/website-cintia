@@ -105,3 +105,25 @@ def test_paginas_com_texto_medico_tem_marcador_de_revisao():
             if "Validar com a Dra." not in arquivo.read_text(encoding="utf-8"):
                 faltando.append(arquivo.name)
     assert faltando == []
+
+
+@pytest.mark.xfail(
+    reason="Aguardando place_id e GOOGLE_MAPS_API_KEY para buscar as avaliacoes",
+    strict=False,
+)
+def test_paginas_de_prova_social_nao_ficam_vazias(html_bruto):
+    """Sem avaliacoes integradas, /depoimentos.html fica so com o titulo.
+
+    Enquanto este teste falhar: ou rodar tools/fetch_reviews.py, ou tirar
+    Depoimentos do menu ate haver conteudo.
+    """
+    vazias = [
+        url
+        for url in ("depoimentos.html", "index.html")
+        if 'class="avaliacao"' not in html_bruto[url]
+    ]
+    assert vazias == [], (
+        "Sem nenhuma avaliacao renderizada em: "
+        + ", ".join(vazias)
+        + ". Rode `py tools/fetch_reviews.py`."
+    )

@@ -55,6 +55,34 @@ A suíte verifica, em toda página gerada: título e meta description únicos e 
 
 Um teste está marcado como `xfail` de propósito: `test_json_ld_nao_contem_dado_pendente`. Ele falha enquanto o schema `Dentist` tiver `TROCAR` no endereço e nas coordenadas. Ao preencher os dados reais, **remover o marcador `xfail`** — o teste passa a bloquear regressões.
 
+## Avaliações do Google
+
+As avaliações vêm do Perfil da Empresa no Google e são buscadas **no build**, não no navegador. Isso mantém a chave de API fora do HTML, evita custo por visita e não adiciona JavaScript de terceiro à página.
+
+```bash
+$env:GOOGLE_MAPS_API_KEY="sua-chave"   # PowerShell
+py tools/fetch_reviews.py              # grava src/data/avaliacoes.json
+py tools/build.py                      # gera o HTML com as avaliações
+```
+
+**Pré-requisitos**, uma vez só:
+
+1. `place_id` da clínica em `src/data/avaliacoes.json` — obtenha em [Place ID Finder](https://developers.google.com/maps/documentation/places/web-service/place-id)
+2. Chave de API no [Google Cloud Console](https://console.cloud.google.com/) com a **Places API (New)** habilitada
+3. Restrinja a chave por API e por IP no console — ela é sua e o uso é cobrado
+
+**Onde aparecem**, a partir de três chaves geradas pelo build:
+
+| Chave | Onde | O que mostra |
+|---|---|---|
+| `{{ avaliacoes_faixa }}` | Home | Nota, estrelas, total, 3 avaliações e o botão do Google |
+| `{{ avaliacoes_todas }}` | `/depoimentos.html` | Todas as avaliações e o botão |
+| `{{ avaliacoes_selo }}` | Junto aos CTAs | Linha compacta com nota e total, linkando o perfil |
+
+Sem avaliações no JSON, as três saem vazias — uma clínica sem avaliações não pode exibir "nota 0" nem seção vazia. O teste `test_paginas_de_prova_social_nao_ficam_vazias` sinaliza esse estado; remova o `xfail` quando a integração estiver ativa.
+
+**Limites da API, para não haver surpresa:** ela devolve no máximo 5 avaliações e não permite escolher quais. Para "atualização automática", agende o par `fetch_reviews.py` + `build.py` (tarefa agendada do Windows, cron ou GitHub Action). Diário é mais que suficiente.
+
 ## Paleta e a regra do dourado
 
 `--gold` (`#B08D57`) é **decoração apenas**: bordas, filetes, ícones. Sobre o off-white ele mede 2,88:1 de contraste e reprova o WCAG AA. Para texto dourado existem `--gold-text` (fundo claro, 4,66:1) e `--gold-light` (fundo navy, 6,18:1). O teste `test_dourado_bruto_nunca_e_usado_em_texto` bloqueia o uso indevido.

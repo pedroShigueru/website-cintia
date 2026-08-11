@@ -9,6 +9,7 @@ import argparse
 import json
 import re
 from dataclasses import dataclass
+from html import escape as html_escape
 from pathlib import Path
 
 # Chaves duplas em vez de string.Template porque `$` colide com CSS e JS.
@@ -162,6 +163,86 @@ def _montar_robots(base_url: str) -> str:
     return f"User-agent: *\nAllow: /\n\nSitemap: {base_url.rstrip('/')}/sitemap.xml\n"
 
 
+DESTAQUES = 3  # avaliacoes exibidas na Home e perto dos CTAs
+
+
+def _estrelas(nota: float) -> str:
+    """Cinco estrelas, as preenchidas ate a nota arredondada."""
+    cheias = int(round(nota))
+    marcas = "".join(
+        f'<span class="estrela{"" if i < cheias else " estrela--vazia"}">&#9733;</span>'
+        for i in range(5)
+    )
+    return f'<span class="estrelas" aria-hidden="true">{marcas}</span>'
+
+
+def _cartao_avaliacao(av: dict) -> str:
+    autor = html_escape(str(av.get("autor", "")))
+    texto = html_escape(str(av.get("texto", "")))
+    quando = html_escape(str(av.get("quando", "")))
+    nota = float(av.get("nota", 5))
+    return (
+        '<blockquote class="avaliacao">'
+        f"{_estrelas(nota)}"
+        f"<p>{texto}</p>"
+        f"<footer><strong>{autor}</strong><span>{quando}</span></footer>"
+        "</blockquote>"
+    )
+
+
+def _blocos_avaliacoes(dados: dict) -> dict[str, str]:
+    """Monta os blocos de avaliacoes do Google a partir de avaliacoes.json.
+
+    Sem nota ou sem avaliacoes, devolve tudo vazio: uma clinica sem
+    avaliacoes nao pode exibir 'nota 0' nem uma secao sem conteudo.
+    """
+    vazio = {"avaliacoes_faixa": "", "avaliacoes_todas": "", "avaliacoes_selo": ""}
+    av = dados.get("avaliacoes") or {}
+    lista = av.get("avaliacoes") or []
+    nota = av.get("nota")
+    if nota is None or not lista:
+        return vazio
+
+    nota_txt = f"{float(nota):.1f}".replace(".", ",")
+    total = av.get("total") or len(lista)
+    perfil = av.get("url_perfil", "")
+    botao = (
+        f'<a class="btn btn--ghost" href="{perfil}" target="_blank" rel="noopener">'
+        "Ver todas as avaliações no Google</a>"
+    )
+
+    faixa = (
+        '<div class="avaliacoes-resumo">'
+        f'<p class="avaliacoes-nota"><strong>{nota_txt}</strong>{_estrelas(float(nota))}'
+        f'<span class="avaliacoes-total">{total} avaliações no Google</span></p>'
+        "</div>"
+        '<div class="avaliacoes-grid">'
+        + "".join(_cartao_avaliacao(a) for a in lista[:DESTAQUES])
+        + "</div>"
+        f'<p class="centralizado">{botao}</p>'
+    )
+
+    todas = (
+        '<div class="avaliacoes-grid avaliacoes-todas">'
+        + "".join(_cartao_avaliacao(a) for a in lista)
+        + "</div>"
+        f'<p class="centralizado">{botao}</p>'
+    )
+
+    selo = (
+        f'<a class="avaliacoes-selo" href="{perfil}" target="_blank" rel="noopener">'
+        f"{_estrelas(float(nota))}"
+        f"<span><strong>{nota_txt}</strong> &middot; {total} avaliações no Google</span>"
+        "</a>"
+    )
+
+    return {
+        "avaliacoes_faixa": faixa,
+        "avaliacoes_todas": todas,
+        "avaliacoes_selo": selo,
+    }
+
+
 MENU = re.compile(r'(<nav class="site-nav".*?</nav>)', re.DOTALL)
 
 
@@ -221,6 +302,7 @@ def _montar_alternates(base_url: str, url: str, lang: str, meta: dict) -> str:
 def construir(raiz: Path) -> dict[str, str]:
     """Devolve {caminho_relativo: conteudo} de tudo que deve existir no disco."""
     dados = carregar_dados(raiz)
+    dados.update(_blocos_avaliacoes(dados))
     partials_por_idioma: dict[str, dict[str, str]] = {}
     layouts = {
         p.stem: p.read_text(encoding="utf-8")

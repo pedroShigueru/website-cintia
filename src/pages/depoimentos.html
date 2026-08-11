@@ -1,81 +1,55 @@
 ---
-title: Depoimentos de pacientes | Fukuoka Dental Clinic
-description: O que os pacientes relatam sobre o atendimento na Fukuoka Dental Clinic, na Av. Paulista: escuta, clareza nas etapas e cuidado técnico.
+title: Avaliações e depoimentos de pacientes | Fukuoka Dental Clinic
+description: Avaliações reais de pacientes da Fukuoka Dental Clinic no Google, na Av. Paulista. Veja o que dizem sobre o atendimento e confira na fonte.
 og_type: article
 ---
     <section class="section">
       <div class="container">
-        <div class="section-head">
-          <span class="overline">Depoimentos</span>
+        <div class="section-head section-head--center">
+          <span class="overline">Avaliações</span>
           <h1>Quem confia o sorriso à Fukuoka</h1>
           <hr class="rule">
-          <p class="lead">Relatos de pacientes sobre a experiência de atendimento na clínica.</p>
+          <p class="lead">Todas as avaliações abaixo vêm do nosso Perfil no Google e podem ser conferidas diretamente na fonte.</p>
         </div>
-
-        <!-- TROCAR: depoimentos ilustrativos. Substituir por depoimentos reais com
-             autorização por escrito antes de publicar (Código de Ética Odontológica e LGPD).
-             Ao substituir, remover também o aviso visível abaixo. -->
-        <p class="aviso" role="note">Os depoimentos abaixo são ilustrativos e serão substituídos por relatos reais de pacientes, mediante autorização por escrito.</p>
-
-        <div class="depo-grid depo-grid--lista">
-          <blockquote class="depo">
-            <p>"O tempo que dedicaram para explicar cada etapa mudou minha relação com o dentista. Saí da primeira consulta entendendo exatamente o que seria feito e por quê."</p>
-            <footer>M. S. &middot; <span>Invisalign</span></footer>
-          </blockquote>
-          <blockquote class="depo">
-            <p>"Atendimento preciso e discreto, do começo ao fim. A clínica tem uma serenidade que faz diferença para quem tem receio de tratamento odontológico."</p>
-            <footer>R. A. &middot; <span>Implante unitário</span></footer>
-          </blockquote>
-          <blockquote class="depo">
-            <p>"Procurava um lugar onde pudesse ser atendida em japonês. Encontrei isso e um cuidado técnico que me deixou segura em cada etapa."</p>
-            <footer>K. T. &middot; <span>Reabilitação oral</span></footer>
-          </blockquote>
-          <blockquote class="depo">
-            <p>"Me apresentaram mais de uma alternativa e explicaram o que cada uma implicava a longo prazo. Foi a primeira vez que senti que a decisão era minha."</p>
-            <footer>P. L. &middot; <span>Lentes de contato dental</span></footer>
-          </blockquote>
-          <blockquote class="depo">
-            <p>"Trabalho em reuniões o dia inteiro e o tratamento não interferiu na rotina. O acompanhamento foi consistente do início ao fim."</p>
-            <footer>F. M. &middot; <span>Invisalign</span></footer>
-          </blockquote>
-          <blockquote class="depo">
-            <p>"O pós-operatório foi mais tranquilo do que eu esperava, e a equipe acompanhou de perto nos primeiros dias."</p>
-            <footer>C. B. &middot; <span>Implantes múltiplos</span></footer>
-          </blockquote>
-        </div>
+        {{ avaliacoes_todas }}
       </div>
     </section>
+
+    <!-- Depoimentos em vídeo: estrutura pronta, aguardando material.
+         Ao ativar, descomentar esta seção e trocar os placeholders.
+         Cada paciente que aparece em vídeo precisa de autorização por escrito
+         (Código de Ética Odontológica e LGPD), igual a depoimento de texto.
+
+         A thumbnail é uma imagem local e o vídeo só carrega ao clique
+         (facade pattern) — embutir três players do YouTube direto na página
+         custaria cerca de 1,5 MB e derrubaria o PageSpeed.
 
     <section class="section section--surface">
       <div class="container">
         <div class="section-head section-head--center">
-          <span class="overline">Antes e depois</span>
-          <h2>Resultados de casos reais</h2>
+          <span class="overline">Em vídeo</span>
+          <h2>Pacientes contam a própria experiência</h2>
           <hr class="rule">
-          <p class="lead">Arraste o controle para comparar.</p>
         </div>
-        <!-- TROCAR: casos reais tratados na clínica, com autorização por escrito do paciente.
-             As imagens atuais são ilustrativas e mostram pessoas diferentes no par. -->
-        <p class="aviso" role="note">Imagens ilustrativas. Serão substituídas por casos reais tratados na clínica, mediante autorização dos pacientes.</p>
-        <div class="casos-grid">
-          <figure class="compare" style="--pos: 50%">
-            <img class="compare__before" src="assets/caso1-antes.webp" alt="Caso 1, antes do tratamento" width="800" height="600" loading="lazy" decoding="async">
-            <img class="compare__after" src="assets/caso1-depois.webp" alt="Caso 1, depois do tratamento" width="800" height="600" loading="lazy" decoding="async">
-            <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois do caso 1">
-            <figcaption>Implante unitário</figcaption>
-          </figure>
-          <figure class="compare" style="--pos: 50%">
-            <img class="compare__before" src="assets/caso2-antes.webp" alt="Caso 2, antes do tratamento" width="800" height="600" loading="lazy" decoding="async">
-            <img class="compare__after" src="assets/caso2-depois.webp" alt="Caso 2, depois do tratamento" width="800" height="600" loading="lazy" decoding="async">
-            <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois do caso 2">
-            <figcaption>Alinhadores transparentes</figcaption>
-          </figure>
-          <figure class="compare" style="--pos: 50%">
-            <img class="compare__before" src="assets/caso3-antes.webp" alt="Caso 3, antes do tratamento" width="800" height="600" loading="lazy" decoding="async">
-            <img class="compare__after" src="assets/caso3-depois.webp" alt="Caso 3, depois do tratamento" width="800" height="600" loading="lazy" decoding="async">
-            <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois do caso 3">
-            <figcaption>Reabilitação oral</figcaption>
-          </figure>
+        <div class="videos-grid">
+          <a class="video-depo" href="TROCAR: URL do vídeo" target="_blank" rel="noopener">
+            <img src="assets/video-depo-1.webp" alt="TROCAR: descrição do depoimento" width="720" height="1280" loading="lazy" decoding="async">
+            <span class="video-depo__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+          </a>
         </div>
+      </div>
+    </section>
+    -->
+
+    <section class="section section--navy">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <span class="overline">Sua vez</span>
+        <h2>Comece pela avaliação</h2>
+        <hr class="rule">
+        <p class="lead">Agende uma consulta e entenda o que se aplica ao seu caso, sem compromisso.</p>
+        <p><a class="btn btn--ghost btn--lg" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+        <p class="cta-prova">{{ avaliacoes_selo }}</p>
       </div>
     </section>

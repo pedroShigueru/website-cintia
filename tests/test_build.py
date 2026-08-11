@@ -305,3 +305,87 @@ class TestContextoDePagina:
         assert '<a aria-current="true">PT</a><a >EN</a>' in saida["index.html"]
         assert '<a ><a' not in saida["en/index.html"]
         assert '<a aria-current="true">EN</a>' in saida["en/index.html"]
+
+
+class TestAvaliacoes:
+    """Blocos gerados a partir do Perfil da Empresa no Google."""
+
+    def _com_avaliacoes(self, tmp_path, dados):
+        raiz = _montar_projeto(tmp_path)
+        (raiz / "src" / "data" / "avaliacoes.json").write_text(
+            json.dumps(dados), encoding="utf-8"
+        )
+        (raiz / "src" / "pages" / "index.html").write_text(
+            "---\ntitle: Home\n---\n<main>{{ avaliacoes_faixa }}{{ avaliacoes_selo }}"
+            "{{ avaliacoes_todas }}</main>",
+            encoding="utf-8",
+        )
+        return raiz
+
+    def test_sem_avaliacoes_os_blocos_ficam_vazios(self, tmp_path):
+        """Uma clinica sem avaliacoes nao pode exibir 'nota 0' nem secao vazia."""
+        raiz = self._com_avaliacoes(tmp_path, {"nota": None, "total": None, "avaliacoes": []})
+        html = build.construir(raiz)["index.html"]
+        assert "<main></main>" in html
+
+    def test_faixa_traz_nota_total_e_link(self, tmp_path):
+        raiz = self._com_avaliacoes(tmp_path, {
+            "nota": 5.0,
+            "total": 47,
+            "url_perfil": "https://maps.google.com/?cid=123",
+            "avaliacoes": [
+                {"autor": "M. S.", "nota": 5, "quando": "há 2 meses", "texto": "Excelente."},
+            ],
+        })
+        html = build.construir(raiz)["index.html"]
+        assert "5,0" in html                      # virgula decimal, pt-BR
+        assert "47" in html
+        assert "https://maps.google.com/?cid=123" in html
+        assert "Ver todas as avaliações no Google" in html
+        assert "M. S." in html
+        assert "Excelente." in html
+
+    def test_faixa_limita_o_destaque_a_tres(self, tmp_path):
+        raiz = self._com_avaliacoes(tmp_path, {
+            "nota": 4.9, "total": 30, "url_perfil": "https://x",
+            "avaliacoes": [
+                {"autor": f"A{i}", "nota": 5, "quando": "hoje", "texto": f"Texto {i}"}
+                for i in range(5)
+            ],
+        })
+        html = build.construir(raiz)["index.html"]
+        faixa = html.split("avaliacoes-todas")[0]
+        assert faixa.count('class="avaliacao"') == 3
+        # A pagina de depoimentos mostra todas.
+        assert html.count('class="avaliacao"') == 3 + 5
+
+    @pytest.mark.parametrize("nota,esperado", [(5.0, "5,0"), (4.9, "4,9"), (4.0, "4,0")])
+    def test_nota_com_uma_casa_e_virgula(self, tmp_path, nota, esperado):
+        raiz = self._com_avaliacoes(tmp_path, {
+            "nota": nota, "total": 12, "url_perfil": "https://x",
+            "avaliacoes": [{"autor": "A", "nota": 5, "quando": "hoje", "texto": "t"}],
+        })
+        assert esperado in build.construir(raiz)["index.html"]
+
+    def test_texto_do_autor_e_escapado(self, tmp_path):
+        """Conteudo vindo da API nao pode injetar HTML."""
+        raiz = self._com_avaliacoes(tmp_path, {
+            "nota": 5.0, "total": 1, "url_perfil": "https://x",
+            "avaliacoes": [{
+                "autor": "<script>x</script>", "nota": 5, "quando": "hoje",
+                "texto": 'Ótimo & "recomendo" <b>muito</b>',
+            }],
+        })
+        html = build.construir(raiz)["index.html"]
+        assert "<script>x</script>" not in html
+        assert "&lt;script&gt;" in html
+        assert "&amp;" in html
+
+    def test_selo_e_compacto_e_linka_o_perfil(self, tmp_path):
+        raiz = self._com_avaliacoes(tmp_path, {
+            "nota": 5.0, "total": 47, "url_perfil": "https://maps.google.com/?cid=9",
+            "avaliacoes": [{"autor": "A", "nota": 5, "quando": "hoje", "texto": "t"}],
+        })
+        html = build.construir(raiz)["index.html"]
+        selo = html.split('class="avaliacoes-selo"')[1].split("</a>")[0]
+        assert "5,0" in selo and "47" in selo
