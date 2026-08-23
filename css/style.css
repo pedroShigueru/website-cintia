@@ -261,7 +261,11 @@ p + p { margin-top: 1.25em; }
 /* ===== Hero ===== */
 .hero { position: relative; display: grid; }
 .hero__media { grid-area: 1/1; }
-.hero__media img { width: 100%; height: clamp(28rem, 70vh, 44rem); object-fit: cover; }
+.hero__media img {
+  width: 100%; height: clamp(28rem, 70vh, 44rem);
+  /* 35% sobe o corte: mantem a Dra. inteira no quadro panoramico. */
+  object-fit: cover; object-position: 50% 35%;
+}
 .hero::after {
   content: ""; grid-area: 1/1;
   background: linear-gradient(100deg, rgba(10,31,58,.94) 0%, rgba(10,31,58,.78) 45%, rgba(10,31,58,.3) 100%);
