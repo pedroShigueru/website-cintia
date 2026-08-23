@@ -17,7 +17,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ prefixo }}css/style.css">
-  <noscript><style>.reveal { opacity: 1 !important; translate: none !important; }</style></noscript>
+  <noscript><style>
+    .reveal { opacity: 1 !important; translate: none !important; }
+    /* Sem JS nao ha quem abra a gaveta: o menu volta a ser uma lista visivel. */
+    @media (max-width: 1079px) {
+      .nav-toggle, .menu-lateral__fechar, .menu-lateral__cta { display: none; }
+      .site-header__inner { flex-wrap: wrap; }
+      .menu-lateral {
+        order: 3; position: static; width: 100%; gap: 0; padding: 0 0 .75rem;
+        visibility: visible; translate: none;
+        background: none; border: 0; box-shadow: none;
+      }
+      .site-nav { flex-flow: row wrap; gap: .25rem 1.25rem; font-size: .9375rem; }
+      .site-nav a { padding-block: .25rem; border-bottom: 1px solid transparent; }
+    }
+  </style></noscript>
   {{ jsonld }}
   <!-- TROCAR: preencher ga4_id em src/data/site.json e descomentar
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ site_ga4_id }}"></script>

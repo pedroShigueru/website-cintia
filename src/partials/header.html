@@ -5,21 +5,31 @@
              src="{{ prefixo }}assets/fukuoka-dental-clinic-escura.svg"
              alt="{{ site_nome }}" width="1372" height="372" decoding="async">
       </a>
-      <nav class="site-nav" aria-label="Navegação principal">
-        <a href="{{ prefixo }}sobre.html">Sobre</a>
-        <a href="{{ prefixo }}tratamentos.html">Tratamentos</a>
-        <a href="{{ prefixo }}filosofia.html">Filosofia</a>
-        <a href="{{ prefixo }}valores.html">Valores</a>
-        <a href="{{ prefixo }}depoimentos.html">Depoimentos</a>
-        <a href="{{ prefixo }}blog/index.html">Blog</a>
-        <a href="{{ prefixo }}contato.html">Contato</a>
-      </nav>
+      <div class="menu-lateral" id="menu-lateral">
+        <button class="menu-lateral__fechar" type="button" aria-label="Fechar menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <nav class="site-nav" aria-label="Navegação principal">
+          <a href="{{ prefixo }}sobre.html">Sobre</a>
+          <a href="{{ prefixo }}tratamentos.html">Tratamentos</a>
+          <a href="{{ prefixo }}filosofia.html">Filosofia</a>
+          <a href="{{ prefixo }}valores.html">Valores</a>
+          <a href="{{ prefixo }}depoimentos.html">Depoimentos</a>
+          <a href="{{ prefixo }}blog/index.html">Blog</a>
+          <a href="{{ prefixo }}contato.html">Contato</a>
+        </nav>
+        <a class="btn btn--primary menu-lateral__cta" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Agendar consulta</a>
+      </div>
       <div class="site-header__acoes">
         <nav class="lang-switch" aria-label="Idioma">
           <a href="{{ prefixo }}index.html" hreflang="pt-BR" {{ ativo_pt }}>PT</a>
           <a href="{{ prefixo }}en/index.html" hreflang="en" {{ ativo_en }}>EN</a>
         </nav>
         {{ cta_bar }}
+        <button class="nav-toggle" type="button" aria-controls="menu-lateral" aria-expanded="false" aria-label="Abrir menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
       </div>
     </div>
+    <div class="menu-overlay"></div>
   </header>

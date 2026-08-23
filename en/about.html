@@ -22,7 +22,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
-  <noscript><style>.reveal { opacity: 1 !important; translate: none !important; }</style></noscript>
+  <noscript><style>
+    .reveal { opacity: 1 !important; translate: none !important; }
+    /* Sem JS nao ha quem abra a gaveta: o menu volta a ser uma lista visivel. */
+    @media (max-width: 1079px) {
+      .nav-toggle, .menu-lateral__fechar, .menu-lateral__cta { display: none; }
+      .site-header__inner { flex-wrap: wrap; }
+      .menu-lateral {
+        order: 3; position: static; width: 100%; gap: 0; padding: 0 0 .75rem;
+        visibility: visible; translate: none;
+        background: none; border: 0; box-shadow: none;
+      }
+      .site-nav { flex-flow: row wrap; gap: .25rem 1.25rem; font-size: .9375rem; }
+      .site-nav a { padding-block: .25rem; border-bottom: 1px solid transparent; }
+    }
+  </style></noscript>
   
   <!-- TROCAR: preencher ga4_id em src/data/site.json e descomentar
   <script async src="https://www.googletagmanager.com/gtag/js?id=TROCAR: G-XXXXXXXXXX"></script>
@@ -38,16 +52,22 @@
              src="../assets/fukuoka-dental-clinic-escura.svg"
              alt="Fukuoka Dental Clinic" width="1372" height="372" decoding="async">
       </a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="../en/about.html" aria-current="page">About</a>
-        <a href="../en/treatments.html">Treatments</a>
-        <a href="../en/philosophy.html">Philosophy</a>
-        <a href="../en/values.html">Values</a>
-        <a href="../en/testimonials.html">Reviews</a>
-        <a href="../en/blog/index.html">Blog</a>
-        <a href="../en/japanese-speaking-dentist.html" lang="ja">日本語</a>
-        <a href="../en/contact.html">Contact</a>
-      </nav>
+      <div class="menu-lateral" id="menu-lateral">
+        <button class="menu-lateral__fechar" type="button" aria-label="Close menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="../en/about.html" aria-current="page">About</a>
+          <a href="../en/treatments.html">Treatments</a>
+          <a href="../en/philosophy.html">Philosophy</a>
+          <a href="../en/values.html">Values</a>
+          <a href="../en/testimonials.html">Reviews</a>
+          <a href="../en/blog/index.html">Blog</a>
+          <a href="../en/japanese-speaking-dentist.html" lang="ja">日本語</a>
+          <a href="../en/contact.html">Contact</a>
+        </nav>
+        <a class="btn btn--primary menu-lateral__cta" href="https://wa.me/5511966499946?text=Ol%C3%A1%21%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20consulta." target="_blank" rel="noopener">Book an appointment</a>
+      </div>
       <div class="site-header__acoes">
         <nav class="lang-switch" aria-label="Language">
           <a href="../index.html" hreflang="pt-BR" >PT</a>
@@ -68,8 +88,12 @@
     </a>
   </div>
 
+        <button class="nav-toggle" type="button" aria-controls="menu-lateral" aria-expanded="false" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
       </div>
     </div>
+    <div class="menu-overlay"></div>
   </header>
 
   <main id="conteudo">
