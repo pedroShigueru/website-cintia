@@ -323,8 +323,10 @@ p + p { margin-top: 1.25em; }
 .hero__media { grid-area: 1/1; }
 .hero__media img {
   width: 100%; height: clamp(28rem, 70vh, 44rem);
-  /* 35% sobe o corte: mantem a Dra. inteira no quadro panoramico. */
-  object-fit: cover; object-position: 50% 35%;
+  /* A foto e 3:2 e o hero e panoramico: um terco da altura fica de fora.
+     75% escolhe o terco de baixo, com as maos, o instrumento e o rosto
+     dela em quadro. Acima disso o corte come os olhos. */
+  object-fit: cover; object-position: 50% 75%;
 }
 .hero::after {
   content: ""; grid-area: 1/1;
