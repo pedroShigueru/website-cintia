@@ -23,6 +23,9 @@ COMENTARIO = re.compile(r"<!--.*?-->", re.DOTALL)
 def main() -> int:
     saida = build.construir(RAIZ)
     gerados = set(saida)
+    # Prefixo de publicacao (ex.: /website-cintia/ no GitHub Pages). Faz parte
+    # da URL servida, mas nao do caminho em disco.
+    base_path = build.carregar_dados(RAIZ)["site_base_path"]
 
     faltando: list[tuple[str, str]] = []
     total = 0
@@ -36,6 +39,8 @@ def main() -> int:
             if not ref:
                 continue
             # Caminho absoluto: a 404 usa, porque e servida sob qualquer URL.
+            if ref.startswith(base_path):
+                ref = "/" + ref[len(base_path):]
             partida = "" if ref.startswith("/") else base
             alvo = posixpath.normpath(
                 posixpath.join(partida, ref.lstrip("/"))

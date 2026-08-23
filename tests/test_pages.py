@@ -175,10 +175,16 @@ def test_sitemap_nao_lista_paginas_noindex(saida):
 
 def test_nenhum_link_interno_quebrado(saida, paginas):
     """Todo href relativo deve corresponder a um arquivo que existe."""
+    import json
     import posixpath
     from pathlib import Path
 
     raiz = Path(__file__).resolve().parents[1]
+    # Prefixo de publicacao (ex.: /website-cintia/ no GitHub Pages). Faz parte
+    # da URL servida, mas nao do caminho em disco.
+    base_path = json.loads(
+        (raiz / "src" / "data" / "site.json").read_text(encoding="utf-8")
+    )["base_path"]
     gerados = set(saida)
     problemas = []
     for url, p in paginas.items():
@@ -191,6 +197,8 @@ def test_nenhum_link_interno_quebrado(saida, paginas):
             if not alvo:
                 continue
             # A 404 usa caminho absoluto: ela e servida sob qualquer URL.
+            if alvo.startswith(base_path):
+                alvo = "/" + alvo[len(base_path):]
             partida = "" if alvo.startswith("/") else base
             resolvido = posixpath.normpath(
                 posixpath.join(partida, alvo.lstrip("/"))

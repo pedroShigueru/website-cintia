@@ -30,7 +30,7 @@
 
 </head>
 <body class="">
-  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <a class="skip-link" href="#conteudo">Skip to content</a>
   <header class="site-header">
     <div class="container site-header__inner">
       <a href="../en/index.html" class="logo">
@@ -43,6 +43,8 @@
         <a href="../en/treatments.html">Treatments</a>
         <a href="../en/philosophy.html">Philosophy</a>
         <a href="../en/values.html">Values</a>
+        <a href="../en/testimonials.html">Reviews</a>
+        <a href="../en/blog/index.html">Blog</a>
         <a href="../en/japanese-speaking-dentist.html" lang="ja">日本語</a>
         <a href="../en/contact.html">Contact</a>
       </nav>
@@ -88,7 +90,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="mission">
       <div class="container split">
         <div class="section-head" style="margin-bottom:0">
           <span class="overline">Mission</span>
@@ -106,7 +108,7 @@
       </div>
     </section>
 
-    <section class="section section--surface">
+    <section class="section section--surface" id="treatments">
       <div class="container">
         <div class="section-head section-head--center">
           <span class="overline">Treatments</span>
@@ -115,7 +117,7 @@
           <p class="lead">From discreet alignment to full rehabilitation, with digital planning and a minimally invasive approach.</p>
         </div>
         <div class="tratamentos-grid">
-          <a class="tratamento-card reveal" href="../en/treatments.html#invisalign">
+          <a class="tratamento-card reveal" href="../en/treatments/invisalign.html">
             <img src="../assets/invisalign.webp" alt="Clear Invisalign aligner" width="800" height="600" loading="lazy" decoding="async">
             <div class="tratamento-card__corpo">
               <h3>Invisalign<sup>&reg;</sup></h3>
@@ -123,7 +125,7 @@
               <span class="link-seta">Learn more</span>
             </div>
           </a>
-          <a class="tratamento-card reveal" href="../en/treatments.html#implants">
+          <a class="tratamento-card reveal" href="../en/treatments/dental-implants.html">
             <img src="../assets/implantes.webp" alt="Dental implant model" width="800" height="600" loading="lazy" decoding="async">
             <div class="tratamento-card__corpo">
               <h3>Dental implants</h3>
@@ -131,7 +133,7 @@
               <span class="link-seta">Learn more</span>
             </div>
           </a>
-          <a class="tratamento-card reveal" href="../en/treatments.html#whitening">
+          <a class="tratamento-card reveal" href="../en/treatments/teeth-whitening.html">
             <img src="../assets/clareamento.webp" alt="Dental shade guide used for whitening" width="800" height="600" loading="lazy" decoding="async">
             <div class="tratamento-card__corpo">
               <h3>Teeth whitening</h3>
@@ -139,11 +141,44 @@
               <span class="link-seta">Learn more</span>
             </div>
           </a>
+          <a class="tratamento-card reveal" href="../en/treatments/oral-rehabilitation.html">
+            <img src="../assets/reabilitacao.webp" alt="Digital planning of an oral rehabilitation case" width="800" height="600" loading="lazy" decoding="async">
+            <div class="tratamento-card__corpo">
+              <h3>Oral rehabilitation</h3>
+              <p>Restoring function and appearance in complex cases.</p>
+              <span class="link-seta">Learn more</span>
+            </div>
+          </a>
+          <a class="tratamento-card reveal" href="../en/treatments/veneers.html">
+            <img src="../assets/estetica.webp" alt="Ceramic laminate on a dental model" width="800" height="600" loading="lazy" decoding="async">
+            <div class="tratamento-card__corpo">
+              <h3>Veneers and laminates</h3>
+              <p>Ceramic laminates that preserve as much natural tooth as possible.</p>
+              <span class="link-seta">Learn more</span>
+            </div>
+          </a>
         </div>
       </div>
     </section>
 
-    <section class="section section--navy">
+    <section class="section" id="about">
+      <div class="container split split--invertido">
+        <div class="texto-corrido">
+          <span class="overline">About</span>
+          <h2>Dra. Cíntia Fukuoka</h2>
+          <hr class="rule">
+          <p>Every patient arrives with a history and a reason. At Fukuoka Dental Clinic, the time spent listening comes before any treatment proposal — because a plan is only a good one when it fits the life of the person receiving it.</p>
+          <!-- TROCAR: parágrafo com formação, especializações e tempo de atuação reais da Dra. -->
+          <p><a class="btn btn--ghost" href="../en/about.html">Get to know the clinic</a></p>
+        </div>
+        <figure class="figura-emoldurada reveal">
+          <img src="../assets/dra.webp" alt="Dra. Cíntia Fukuoka at Fukuoka Dental Clinic" width="800" height="1000" loading="lazy" decoding="async">
+          <!-- TROCAR: foto profissional da Dra. -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section--navy" id="philosophy">
       <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
         <span class="overline">Philosophy</span>
         <h2>We care for people, not just teeth</h2>
@@ -158,6 +193,56 @@
       </div>
     </section>
 
+    <section class="section section--surface" id="values">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Values</span>
+          <h2>What guides every decision</h2>
+          <hr class="rule">
+        </div>
+        <ol class="valores">
+  <li class="valores__item">
+    <span class="valores__num" aria-hidden="true">01</span>
+    <h2>Faith</h2>
+    <p>We believe there is always a way to offer our patients the best possible care.</p>
+  </li>
+  <li class="valores__item">
+    <span class="valores__num" aria-hidden="true">02</span>
+    <h2>Humility</h2>
+    <p>We keep learning continuously, to grow as professionals and as people.</p>
+  </li>
+  <li class="valores__item">
+    <span class="valores__num" aria-hidden="true">03</span>
+    <h2>Gratitude</h2>
+    <p>We value every patient, every opportunity to care and every achievement along our path.</p>
+  </li>
+  <li class="valores__item">
+    <span class="valores__num" aria-hidden="true">04</span>
+    <h2>Respect</h2>
+    <p>We treat every person with empathy, ethics, attention and dignity.</p>
+  </li>
+  <li class="valores__item">
+    <span class="valores__num" aria-hidden="true">05</span>
+    <h2>Excellence</h2>
+    <p>We pursue the highest standards of quality in every appointment, combining knowledge, technology and dedication.</p>
+  </li>
+</ol>
+
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Reviews</span>
+          <h2>Why so many patients trust Fukuoka</h2>
+          <hr class="rule">
+        </div>
+        <div class="avaliacoes-resumo"><p class="avaliacoes-nota"><strong>5.0</strong><span class="estrelas" aria-hidden="true"><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span></span><span class="avaliacoes-total">29 Google reviews</span></p></div><div class="avaliacoes-grid"><blockquote class="avaliacao avaliacao--resumida" lang="pt-BR"><span class="estrelas" aria-hidden="true"><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span></span><div class="avaliacao__texto"><p>Sou paciente da Dra. Cíntia desde 2013 e posso afirmar que ela é uma profissional referência dentro e fora do Brasil em implantes dentários, cirurgia e estética, aliando conhecimento técnico, experiência e atendimento humanizado de altíssimo nível.</p><p>Seu comprometimento com a prática odontológica e a área acadêmica é admirável, sempre buscando atualização e inovação. Seu reconhecimento internacional, com atuação no Japão e na Europa, comprovam sua credibilidade e expertise.</p><p>Atuando na região da Avenida Paulista recomendo a Dra. Cíntia com total confiança para quem busca qualidade, segurança e resultados excepcionais. Uma profissional diferenciada e verdadeiramente comprometida com o paciente e a excelência nas entregas.</p></div><footer><strong>Maria Juliana</strong></footer></blockquote><blockquote class="avaliacao avaliacao--resumida" lang="pt-BR"><span class="estrelas" aria-hidden="true"><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span></span><div class="avaliacao__texto"><p>A Cintia foi a melhor indicação de dentista que já recebi na vida! Assim como me indicaram, a indico sem sombra de dúvidas com confiança desde 2021!</p><p>Além de sua atenção e cuidado, seu excelente profissionalismo e competência com suas qualificações ímpares trazem conforto em saber que está sendo cuidado por quem sabe o que está fazendo.</p><p>Fiz meu planejamento digital e estética Invisalign e estou muito feliz com o processo, sem igual. E melhor ainda por ser na Paulista é fácil de chegar sem desculpas de ser difícil de ir se cuidar 🙂</p></div><footer><strong>Glauber Monteiro</strong></footer></blockquote><blockquote class="avaliacao avaliacao--resumida" lang="pt-BR"><span class="estrelas" aria-hidden="true"><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span></span><div class="avaliacao__texto"><p>A Dra Cintia é uma ótima dentista, recomendo para todos! É atenciosa, muito qualificada e possui todos os equipamentos para tratamento e os melhores materiais. O consultório é aconchegante e fácil de achar! É pertissimo da Paulista.</p><p>Sou paciente faz anos e não troco de dentista! ❤️</p></div><footer><strong>carolina nakabayashi</strong></footer></blockquote></div><p class="centralizado"><small>Reviews are reproduced as patients wrote them, in Portuguese.</small></p><p class="centralizado"><a class="btn btn--ghost" href="https://www.google.com/maps/search/?api=1&query=-23.571948%2C-46.644056" target="_blank" rel="noopener">See all reviews on Google</a></p>
+        <p class="centralizado"><a class="btn btn--ghost" href="../en/testimonials.html">Read all the reviews</a></p>
+      </div>
+    </section>
+
     <section class="section faixa-jp">
       <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
         <span class="overline" lang="ja">日本語対応</span>
@@ -168,7 +253,34 @@
       </div>
     </section>
 
-    <section class="section section--navy">
+    <section class="section" id="blog">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Blog</span>
+          <h2>Deciding with proper information</h2>
+          <hr class="rule">
+        </div>
+        <div class="post-grid">
+          <a class="post-card reveal" href="../en/blog/how-invisalign-works.html">
+            <h3>Invisalign: how the treatment works</h3>
+            <p>From the digital scan to final retention, what to expect at each stage.</p>
+            <span class="link-seta">Read the article</span>
+          </a>
+          <a class="post-card reveal" href="../en/blog/dental-implant-step-by-step.html">
+            <h3>Dental implants: step by step</h3>
+            <p>Assessment, guided surgery, osseointegration and the definitive prosthesis.</p>
+            <span class="link-seta">Read the article</span>
+          </a>
+          <a class="post-card reveal" href="../en/blog/safe-teeth-whitening.html">
+            <h3>Safe teeth whitening</h3>
+            <p>Why professional supervision changes the result and protects the enamel.</p>
+            <span class="link-seta">Read the article</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--navy" id="contact">
       <div class="container split">
         <div>
           <span class="overline">Contact</span>
@@ -176,6 +288,7 @@
           <hr class="rule">
           <p class="lead">Message our team on WhatsApp and we will find a time that fits your routine. We speak English, Japanese and Portuguese.</p>
           <p><a class="btn btn--ghost btn--lg" href="https://wa.me/5511966499946?text=Ol%C3%A1%21%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20consulta." target="_blank" rel="noopener">Message us on WhatsApp</a></p>
+          <p class="cta-prova"><a class="avaliacoes-selo" href="https://www.google.com/maps/search/?api=1&query=-23.571948%2C-46.644056" target="_blank" rel="noopener"><span class="estrelas" aria-hidden="true"><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span><span class="estrela">&#9733;</span></span><span><strong>5.0</strong> &middot; 29 Google reviews</span></a></p>
         </div>
         <address class="bloco-contato">
           <p><strong>Address</strong><br>Praça Oswaldo Cruz, 47, conj. 43<br>Paraíso &middot; São Paulo/SP</p>
@@ -208,7 +321,7 @@
     <div class="container site-footer__base">
       <p>&copy; 2026 Fukuoka Dental Clinic. All rights reserved.</p>
       <p>Dentist in charge: Dra. Cíntia Fukuoka &middot; TROCAR: CRO-SP 00.000</p>
-      <p><a href="../privacidade.html">Privacy Policy</a></p>
+      <p><a href="../en/privacy.html">Privacy Policy</a></p>
     </div>
   </footer>
 

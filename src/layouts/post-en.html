@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  {{ head }}
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"{{ h1 }}","description":"{{ description }}","datePublished":"{{ data_publicacao }}","inLanguage":"en","author":{"@type":"Organization","name":"{{ site_nome }}"},"publisher":{"@type":"Organization","name":"{{ site_nome }}"},"mainEntityOfPage":"{{ url_absoluta }}"}</script>
+</head>
+<body class="{{ classe_body }}">
+  <a class="skip-link" href="#conteudo">{{ rotulo_skip }}</a>
+  {{ header }}
+  <main id="conteudo">
+    <nav class="trilha" aria-label="Breadcrumb">
+      <div class="container">
+        <a href="{{ prefixo }}en/index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ prefixo }}en/blog/index.html">Blog</a>
+      </div>
+    </nav>
+
+    <article class="section">
+      <div class="container container--narrow">
+        <header class="post-cabecalho">
+          <span class="overline">Article</span>
+          <h1>{{ h1 }}</h1>
+          <hr class="rule">
+          <p class="lead">{{ resumo }}</p>
+          <p class="post-meta">
+            <time datetime="{{ data_publicacao }}">{{ data_legivel }}</time>
+            <span aria-hidden="true">&middot;</span>
+            <span>{{ tempo_leitura }} read</span>
+          </p>
+        </header>
+
+        <div class="texto-corrido post-corpo">
+{{ conteudo }}
+        </div>
+
+        <aside class="post-relacionado">
+          <p class="overline">Related treatment</p>
+          <p><a class="btn btn--ghost" href="{{ prefixo }}{{ tratamento_relacionado_url }}">{{ tratamento_relacionado }}</a></p>
+        </aside>
+      </div>
+    </article>
+
+    <section class="section section--navy">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <h2>A question about your own case?</h2>
+        <hr class="rule">
+        <p class="lead">Articles inform, but they do not replace a clinical examination. Book an assessment to find out what applies to you.</p>
+        <p><a class="btn btn--ghost btn--lg" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Message us on WhatsApp</a></p>
+      </div>
+    </section>
+  </main>
+  {{ footer }}
+  <div class="cta-bar-mobile">
+    {{ cta_bar }}
+  </div>
+  <script src="{{ prefixo }}js/main.js" defer></script>
+</body>
+</html>

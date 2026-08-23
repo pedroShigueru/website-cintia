@@ -176,12 +176,16 @@ def _estrelas(nota: float) -> str:
     return f'<span class="estrelas" aria-hidden="true">{marcas}</span>'
 
 
-def _cartao_avaliacao(av: dict, resumido: bool = False) -> str:
+def _cartao_avaliacao(av: dict, resumido: bool = False, lang_texto: str = "") -> str:
     """Um cartao de avaliacao. `resumido` limita a altura via CSS.
 
     Avaliacoes reais variam muito de tamanho: uma de tres linhas ao lado de
     uma de vinte desalinha a grade. Na Home elas ficam limitadas; na pagina
     de depoimentos aparecem inteiras.
+
+    `lang_texto` marca o idioma do trecho quando ele difere do idioma da
+    pagina. As avaliacoes sao citacoes reais e nao sao traduzidas; sem a
+    marcacao, um leitor de tela leria portugues com fonemas do ingles.
     """
     autor = html_escape(str(av.get("autor", "")))
     quando = html_escape(str(av.get("quando", "")))
@@ -192,15 +196,102 @@ def _cartao_avaliacao(av: dict, resumido: bool = False) -> str:
         if t.strip()
     )
     classe = "avaliacao avaliacao--resumida" if resumido else "avaliacao"
+    marca_lang = f' lang="{lang_texto}"' if lang_texto else ""
     # Sem data conhecida, o campo some em vez de deixar um espaco vazio.
     rodape = f"<strong>{autor}</strong>" + (f"<span>{quando}</span>" if quando else "")
     return (
-        f'<blockquote class="{classe}">'
+        f'<blockquote class="{classe}"{marca_lang}>'
         f"{_estrelas(nota)}"
         f'<div class="avaliacao__texto">{paragrafos}</div>'
         f"<footer>{rodape}</footer>"
         "</blockquote>"
     )
+
+
+# Os blocos de avaliacao sao montados em Python, entao os rotulos precisam
+# existir em cada idioma aqui — nao ha template onde traduzi-los.
+ROTULOS_AVALIACOES = {
+    "pt": {
+        "com_total": "{total} avaliações no Google",
+        "sem_total": "avaliações no Google",
+        "botao": "Ver todas as avaliações no Google",
+        "aviso_idioma": "",
+        "decimal": ",",
+        "lang_citacao": "",
+    },
+    "en": {
+        "com_total": "{total} Google reviews",
+        "sem_total": "Google reviews",
+        "botao": "See all reviews on Google",
+        "aviso_idioma": (
+            "Reviews are reproduced as patients wrote them, in Portuguese."
+        ),
+        "decimal": ".",
+        "lang_citacao": "pt-BR",
+    },
+}
+
+
+def _blocos_de_idioma(av: dict, idioma: str, sufixo: str) -> dict[str, str]:
+    """Faixa, lista e selo de avaliacoes num idioma. `sufixo` nomeia as chaves."""
+    rot = ROTULOS_AVALIACOES[idioma]
+    lista = av["avaliacoes"]
+    nota = float(av["nota"])
+    nota_txt = f"{nota:.1f}".replace(".", rot["decimal"])
+    # Sem o total do perfil, nao inventamos um numero: o texto sai sem contagem.
+    total = av.get("total")
+    contagem = rot["com_total"].format(total=total) if total else rot["sem_total"]
+    perfil = av.get("url_perfil", "")
+    botao = (
+        f'<a class="btn btn--ghost" href="{perfil}" target="_blank" rel="noopener">'
+        f'{rot["botao"]}</a>'
+    )
+    aviso = (
+        f'<p class="centralizado"><small>{rot["aviso_idioma"]}</small></p>'
+        if rot["aviso_idioma"]
+        else ""
+    )
+    citacao = rot["lang_citacao"]
+
+    faixa = (
+        '<div class="avaliacoes-resumo">'
+        f'<p class="avaliacoes-nota"><strong>{nota_txt}</strong>{_estrelas(nota)}'
+        f'<span class="avaliacoes-total">{contagem}</span></p>'
+        "</div>"
+        '<div class="avaliacoes-grid">'
+        + "".join(
+            _cartao_avaliacao(a, resumido=True, lang_texto=citacao)
+            for a in lista[:DESTAQUES]
+        )
+        + "</div>"
+        f"{aviso}"
+        f'<p class="centralizado">{botao}</p>'
+    )
+
+    todas = (
+        '<div class="avaliacoes-grid avaliacoes-todas">'
+        + "".join(_cartao_avaliacao(a, lang_texto=citacao) for a in lista)
+        + "</div>"
+        f"{aviso}"
+        f'<p class="centralizado">{botao}</p>'
+    )
+
+    selo = (
+        f'<a class="avaliacoes-selo" href="{perfil}" target="_blank" rel="noopener">'
+        f"{_estrelas(nota)}"
+        f"<span><strong>{nota_txt}</strong> &middot; {contagem}</span>"
+        "</a>"
+    )
+
+    return {
+        f"avaliacoes_faixa{sufixo}": faixa,
+        f"avaliacoes_todas{sufixo}": todas,
+        f"avaliacoes_selo{sufixo}": selo,
+    }
+
+
+# Chave sem sufixo e a portuguesa: as paginas PT ja usam {{ avaliacoes_faixa }}.
+IDIOMAS_AVALIACOES = [("pt", ""), ("en", "_en")]
 
 
 def _blocos_avaliacoes(dados: dict) -> dict[str, str]:
@@ -209,54 +300,24 @@ def _blocos_avaliacoes(dados: dict) -> dict[str, str]:
     Sem nota ou sem avaliacoes, devolve tudo vazio: uma clinica sem
     avaliacoes nao pode exibir 'nota 0' nem uma secao sem conteudo.
     """
-    vazio = {"avaliacoes_faixa": "", "avaliacoes_todas": "", "avaliacoes_selo": ""}
+    chaves = [
+        f"avaliacoes_{bloco}{sufixo}"
+        for _, sufixo in IDIOMAS_AVALIACOES
+        for bloco in ("faixa", "todas", "selo")
+    ]
+    vazio = dict.fromkeys(chaves, "")
+
     av = dados.get("avaliacoes") or {}
-    lista = av.get("avaliacoes") or []
-    nota = av.get("nota")
-    if nota is None or not lista:
+    if av.get("nota") is None or not av.get("avaliacoes"):
         return vazio
 
-    nota_txt = f"{float(nota):.1f}".replace(".", ",")
-    # Sem o total do perfil, nao inventamos um numero: o texto sai sem contagem.
-    total = av.get("total")
-    contagem = f"{total} avaliações no Google" if total else "avaliações no Google"
-    perfil = av.get("url_perfil", "")
-    botao = (
-        f'<a class="btn btn--ghost" href="{perfil}" target="_blank" rel="noopener">'
-        "Ver todas as avaliações no Google</a>"
-    )
+    blocos: dict[str, str] = {}
+    for idioma, sufixo in IDIOMAS_AVALIACOES:
+        blocos.update(_blocos_de_idioma(av, idioma, sufixo))
+    return blocos
 
-    faixa = (
-        '<div class="avaliacoes-resumo">'
-        f'<p class="avaliacoes-nota"><strong>{nota_txt}</strong>{_estrelas(float(nota))}'
-        f'<span class="avaliacoes-total">{contagem}</span></p>'
-        "</div>"
-        '<div class="avaliacoes-grid">'
-        + "".join(_cartao_avaliacao(a, resumido=True) for a in lista[:DESTAQUES])
-        + "</div>"
-        f'<p class="centralizado">{botao}</p>'
-    )
 
-    todas = (
-        '<div class="avaliacoes-grid avaliacoes-todas">'
-        + "".join(_cartao_avaliacao(a) for a in lista)
-        + "</div>"
-        f'<p class="centralizado">{botao}</p>'
-    )
-
-    selo = (
-        f'<a class="avaliacoes-selo" href="{perfil}" target="_blank" rel="noopener">'
-        f"{_estrelas(float(nota))}"
-        f"<span><strong>{nota_txt}</strong> &middot; {contagem}</span>"
-        "</a>"
-    )
-
-    return {
-        "avaliacoes_faixa": faixa,
-        "avaliacoes_todas": todas,
-        "avaliacoes_selo": selo,
-    }
-
+ROTULOS_SKIP = {"pt": "Ir para o conteúdo", "en": "Skip to content"}
 
 MENU = re.compile(r'(<nav class="site-nav".*?</nav>)', re.DOTALL)
 
@@ -267,10 +328,13 @@ def _marcar_pagina_atual(header: str, url: str, prefixo: str) -> str:
     Uma subpagina marca a secao pai: tratamentos/invisalign.html acende
     "Tratamentos". Restrito ao <nav class="site-nav"> para nao marcar o logo,
     que aponta para a home em todas as paginas.
+
+    A secao e a pasta inteira, nao so o primeiro segmento: em en/blog/x.html
+    o pai e en/blog, e nao en.
     """
     alvos = {url}
     if "/" in url:
-        secao = url.split("/")[0]
+        secao = url.rsplit("/", 1)[0]
         alvos.add(f"{secao}.html")        # tratamentos/x.html -> tratamentos.html
         alvos.add(f"{secao}/index.html")  # blog/x.html       -> blog/index.html
 
@@ -342,7 +406,9 @@ def construir(raiz: Path) -> dict[str, str]:
             # Caminho relativo ate a raiz. Mantem os links corretos em
             # subpastas sem depender de o site estar servido na raiz do dominio.
             # O front-matter pode sobrescrever: a 404 precisa de caminho
-            # absoluto, porque e servida sob qualquer URL inexistente.
+            # absoluto, porque e servida sob qualquer URL inexistente. Ela usa
+            # {{ site_base_path }}, que muda conforme o site esteja na raiz do
+            # dominio ou sob um subcaminho (GitHub Pages de projeto).
             "prefixo": pagina.meta.get("prefixo", "../" * pagina.url.count("/")),
             "alternates": _montar_alternates(
                 dados["site_base_url"], pagina.url, lang, pagina.meta
@@ -353,6 +419,8 @@ def construir(raiz: Path) -> dict[str, str]:
             ),
             "ativo_pt": "" if lang == "en" else 'aria-current="true"',
             "ativo_en": 'aria-current="true"' if lang == "en" else "",
+            # O skip link vive no layout, fora dos partials traduzidos.
+            "rotulo_skip": ROTULOS_SKIP[idioma],
         }
         # Front-matter opcional: default vazio para nao quebrar o render.
         for chave in ("classe_body", "jsonld"):

@@ -20,9 +20,18 @@ Editar sempre em `src/`:
 | `src/data/site.json` | Endereço, telefone, WhatsApp, horários, IDs de analytics |
 | `src/data/nav.json` | Estrutura documental do menu |
 | `src/partials/` | Header, footer, barra de CTAs, `<head>` |
-| `src/layouts/` | Esqueletos: `base`, `treatment`, `post` |
+| `src/layouts/` | Esqueletos: `base`, `treatment`, `post` e as variantes `treatment-en`, `post-en` |
 | `src/pages/` | Miolo de cada página, com front-matter |
 | `src/content/pt/` | Filosofia, missão e valores — texto da Dra., fonte única |
+| `src/content/en/` | Os mesmos textos em inglês |
+
+Um partial com sufixo `-en` (`header-en.html`) tem precedência sobre o padrão
+em páginas com `lang: en`; sem contraparte, o build cai no partial em português.
+Layouts não têm essa regra — a página em inglês declara `layout: post-en`
+explicitamente. Os blocos de avaliação são montados em Python, então os rótulos
+em cada idioma ficam em `ROTULOS_AVALIACOES`, dentro de `tools/build.py`; as
+páginas EN usam `{{ avaliacoes_faixa_en }}`, `{{ avaliacoes_todas_en }}` e
+`{{ avaliacoes_selo_en }}`.
 
 Depois de editar, rodar `py tools/build.py` e commitar tanto `src/` quanto os HTML gerados.
 
@@ -112,6 +121,25 @@ Ao trocar as extensões, atualizar os `src` em `src/pages/` e rodar `py tools/ch
 
 Buscar `TROCAR` em `src/` e substituir tudo. Os principais estão em `src/data/site.json`: endereço, CEP, telefone, WhatsApp, coordenadas, Instagram, e-mail, nome completo da Dra., CRO, ID do GA4.
 
+## Publicar no GitHub Pages
+
+Prévia para a Dra. revisar, servida em `https://pedroshigueru.github.io/website-cintia/`.
+No GitHub: **Settings → Pages → Source: Deploy from a branch → `master` / `(root)`**.
+
+Como é um Pages *de projeto*, o site fica sob o subcaminho `/website-cintia/` em vez
+da raiz do domínio. Quase tudo funciona sem ajuste, porque o build gera links
+relativos — a exceção é a 404, que precisa de caminho absoluto (é servida sob
+qualquer URL inexistente, em qualquer profundidade). Daí `base_path` em
+`src/data/site.json`:
+
+| Onde o site está | `base_path` |
+|---|---|
+| GitHub Pages de projeto | `/website-cintia/` |
+| Domínio próprio (raiz) | `/` |
+
+**Ao migrar para `fukuokadentalclinic.com.br`, voltar `base_path` para `/` e rodar o
+build de novo.** `.nojekyll` na raiz desliga o processamento Jekyll do Pages.
+
 ## Checklist antes de publicar
 
 - [ ] Todos os `TROCAR` de `src/data/site.json` preenchidos
@@ -123,7 +151,9 @@ Buscar `TROCAR` em `src/` e substituir tudo. Os principais estão em `src/data/s
 - [ ] Coordenadas e endereço reais no JSON-LD; remover o `xfail` de `test_json_ld_nao_contem_dado_pendente`
 - [ ] ID do GA4 preenchido e o bloco descomentado em `src/partials/head.html`
 - [ ] Search Console verificado e `sitemap.xml` submetido
-- [ ] Após traduzir as páginas EN: remover `noindex: true` do front-matter delas
+- [ ] Textos clínicos em inglês validados pela Dra. junto com a versão em português — e então remover `noindex: true` do front-matter das páginas EN
+- [ ] Política de privacidade em inglês revisada pelo advogado junto com a versão em português
+- [ ] `base_path` de volta para `/` ao sair do GitHub Pages para o domínio próprio
 - [ ] Lighthouse mobile na Home: Performance ≥ 90, Acessibilidade ≥ 95, SEO ≥ 95
 
 ## Decisões registradas
@@ -132,5 +162,6 @@ Buscar `TROCAR` em `src/` e substituir tudo. Os principais estão em `src/data/s
 - **Sem verde WhatsApp nos botões.** Branco sobre `#1EBE5D` mede 2,45:1 e reprova AA, além de destoar da paleta. Os CTAs usam navy, mantendo o ícone do WhatsApp.
 - **Noto Sans JP no corpo do texto.** O site tem conteúdo em japonês de verdade; uma fonte só-latina o jogaria para a fonte de sistema, fora do design.
 - **Mapa como imagem estática**, não iframe, por desempenho. O iframe fica comentado em `src/pages/contato.html`.
-- **Páginas EN com `noindex`** até serem traduzidas, para não criar conteúdo raso indexado.
+- **Páginas EN com `noindex`.** A tradução já cobre o site inteiro, mas o texto clínico ainda não passou pela validação da Dra.; indexar antes disso publica informação médica não revisada em outro idioma.
+- **Avaliações não são traduzidas.** São citações reais do Perfil no Google. Nas páginas EN elas aparecem no original, marcadas com `lang="pt-BR"` e acompanhadas de uma nota; reescrever a fala de um paciente em outro idioma e apresentá-la entre aspas seria falsear a citação.
 - **`/atendimento-em-japones.html` não estava na lista de páginas do briefing**, mas foi criada porque o briefing pede otimização para "dentista para japoneses em São Paulo" e sem página dedicada esse termo não tem onde ranquear.

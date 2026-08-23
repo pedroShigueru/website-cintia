@@ -23,7 +23,7 @@ alternate_pt: index.html
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="mission">
       <div class="container split">
         <div class="section-head" style="margin-bottom:0">
           <span class="overline">Mission</span>
@@ -36,7 +36,7 @@ alternate_pt: index.html
       </div>
     </section>
 
-    <section class="section section--surface">
+    <section class="section section--surface" id="treatments">
       <div class="container">
         <div class="section-head section-head--center">
           <span class="overline">Treatments</span>
@@ -45,7 +45,7 @@ alternate_pt: index.html
           <p class="lead">From discreet alignment to full rehabilitation, with digital planning and a minimally invasive approach.</p>
         </div>
         <div class="tratamentos-grid">
-          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments.html#invisalign">
+          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments/invisalign.html">
             <img src="{{ prefixo }}assets/invisalign.webp" alt="Clear Invisalign aligner" width="800" height="600" loading="lazy" decoding="async">
             <div class="tratamento-card__corpo">
               <h3>Invisalign<sup>&reg;</sup></h3>
@@ -53,7 +53,7 @@ alternate_pt: index.html
               <span class="link-seta">Learn more</span>
             </div>
           </a>
-          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments.html#implants">
+          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments/dental-implants.html">
             <img src="{{ prefixo }}assets/implantes.webp" alt="Dental implant model" width="800" height="600" loading="lazy" decoding="async">
             <div class="tratamento-card__corpo">
               <h3>Dental implants</h3>
@@ -61,7 +61,7 @@ alternate_pt: index.html
               <span class="link-seta">Learn more</span>
             </div>
           </a>
-          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments.html#whitening">
+          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments/teeth-whitening.html">
             <img src="{{ prefixo }}assets/clareamento.webp" alt="Dental shade guide used for whitening" width="800" height="600" loading="lazy" decoding="async">
             <div class="tratamento-card__corpo">
               <h3>Teeth whitening</h3>
@@ -69,11 +69,44 @@ alternate_pt: index.html
               <span class="link-seta">Learn more</span>
             </div>
           </a>
+          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments/oral-rehabilitation.html">
+            <img src="{{ prefixo }}assets/reabilitacao.webp" alt="Digital planning of an oral rehabilitation case" width="800" height="600" loading="lazy" decoding="async">
+            <div class="tratamento-card__corpo">
+              <h3>Oral rehabilitation</h3>
+              <p>Restoring function and appearance in complex cases.</p>
+              <span class="link-seta">Learn more</span>
+            </div>
+          </a>
+          <a class="tratamento-card reveal" href="{{ prefixo }}en/treatments/veneers.html">
+            <img src="{{ prefixo }}assets/estetica.webp" alt="Ceramic laminate on a dental model" width="800" height="600" loading="lazy" decoding="async">
+            <div class="tratamento-card__corpo">
+              <h3>Veneers and laminates</h3>
+              <p>Ceramic laminates that preserve as much natural tooth as possible.</p>
+              <span class="link-seta">Learn more</span>
+            </div>
+          </a>
         </div>
       </div>
     </section>
 
-    <section class="section section--navy">
+    <section class="section" id="about">
+      <div class="container split split--invertido">
+        <div class="texto-corrido">
+          <span class="overline">About</span>
+          <h2>{{ site_responsavel }}</h2>
+          <hr class="rule">
+          <p>Every patient arrives with a history and a reason. At Fukuoka Dental Clinic, the time spent listening comes before any treatment proposal — because a plan is only a good one when it fits the life of the person receiving it.</p>
+          <!-- TROCAR: parágrafo com formação, especializações e tempo de atuação reais da Dra. -->
+          <p><a class="btn btn--ghost" href="{{ prefixo }}en/about.html">Get to know the clinic</a></p>
+        </div>
+        <figure class="figura-emoldurada reveal">
+          <img src="{{ prefixo }}assets/dra.webp" alt="Dra. Cíntia Fukuoka at Fukuoka Dental Clinic" width="800" height="1000" loading="lazy" decoding="async">
+          <!-- TROCAR: foto profissional da Dra. -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section--navy" id="philosophy">
       <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
         <span class="overline">Philosophy</span>
         <h2>We care for people, not just teeth</h2>
@@ -82,6 +115,29 @@ alternate_pt: index.html
           {{ content_philosophy_resumo }}
         </div>
         <p><a class="btn btn--ghost" href="{{ prefixo }}en/philosophy.html">Read the full manifesto</a></p>
+      </div>
+    </section>
+
+    <section class="section section--surface" id="values">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Values</span>
+          <h2>What guides every decision</h2>
+          <hr class="rule">
+        </div>
+        {{ content_values }}
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Reviews</span>
+          <h2>Why so many patients trust Fukuoka</h2>
+          <hr class="rule">
+        </div>
+        {{ avaliacoes_faixa_en }}
+        <p class="centralizado"><a class="btn btn--ghost" href="{{ prefixo }}en/testimonials.html">Read all the reviews</a></p>
       </div>
     </section>
 
@@ -95,7 +151,34 @@ alternate_pt: index.html
       </div>
     </section>
 
-    <section class="section section--navy">
+    <section class="section" id="blog">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Blog</span>
+          <h2>Deciding with proper information</h2>
+          <hr class="rule">
+        </div>
+        <div class="post-grid">
+          <a class="post-card reveal" href="{{ prefixo }}en/blog/how-invisalign-works.html">
+            <h3>Invisalign: how the treatment works</h3>
+            <p>From the digital scan to final retention, what to expect at each stage.</p>
+            <span class="link-seta">Read the article</span>
+          </a>
+          <a class="post-card reveal" href="{{ prefixo }}en/blog/dental-implant-step-by-step.html">
+            <h3>Dental implants: step by step</h3>
+            <p>Assessment, guided surgery, osseointegration and the definitive prosthesis.</p>
+            <span class="link-seta">Read the article</span>
+          </a>
+          <a class="post-card reveal" href="{{ prefixo }}en/blog/safe-teeth-whitening.html">
+            <h3>Safe teeth whitening</h3>
+            <p>Why professional supervision changes the result and protects the enamel.</p>
+            <span class="link-seta">Read the article</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--navy" id="contact">
       <div class="container split">
         <div>
           <span class="overline">Contact</span>
@@ -103,6 +186,7 @@ alternate_pt: index.html
           <hr class="rule">
           <p class="lead">Message our team on WhatsApp and we will find a time that fits your routine. We speak English, Japanese and Portuguese.</p>
           <p><a class="btn btn--ghost btn--lg" href="{{ site_whatsapp_url }}" target="_blank" rel="noopener">Message us on WhatsApp</a></p>
+          <p class="cta-prova">{{ avaliacoes_selo_en }}</p>
         </div>
         <address class="bloco-contato">
           <p><strong>Address</strong><br>{{ site_endereco_rua }}<br>{{ site_endereco_bairro }} &middot; {{ site_endereco_cidade }}/{{ site_endereco_uf }}</p>
