@@ -2,8 +2,6 @@
   "principal": [
     { "rotulo": "Sobre", "url": "sobre.html" },
     { "rotulo": "Tratamentos", "url": "tratamentos.html" },
-    { "rotulo": "Filosofia", "url": "filosofia.html" },
-    { "rotulo": "Valores", "url": "valores.html" },
     { "rotulo": "Depoimentos", "url": "depoimentos.html" },
     { "rotulo": "Blog", "url": "blog/index.html" },
     { "rotulo": "Contato", "url": "contato.html" }
