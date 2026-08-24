@@ -324,9 +324,9 @@ p + p { margin-top: 1.25em; }
 .hero__media img {
   width: 100%; height: clamp(28rem, 70vh, 44rem);
   /* A foto e 3:2 e o hero e panoramico: um terco da altura fica de fora.
-     75% escolhe o terco de baixo, com as maos, o instrumento e o rosto
-     dela em quadro. Acima disso o corte come os olhos. */
-  object-fit: cover; object-position: 50% 75%;
+     35% escolhe o terco de cima: a Dra. inteira, sem corte na cabeca.
+     Valores maiores trazem as maos e o paciente, mas o quadro fica pesado. */
+  object-fit: cover; object-position: 50% 35%;
 }
 .hero::after {
   content: ""; grid-area: 1/1;
