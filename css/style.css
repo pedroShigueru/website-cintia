@@ -36,7 +36,10 @@ body {
   font-size: 1.0625rem;
   -webkit-font-smoothing: antialiased;
 }
-img, video { max-width: 100%; display: block; }
+/* height: auto e obrigatorio: os atributos width/height do HTML viram
+   hint de altura fixa, e sem isso a foto estica quando o CSS define
+   so a largura. */
+img, video { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
 button, input, select { font: inherit; }
