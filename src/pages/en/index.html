@@ -23,16 +23,19 @@ alternate_pt: index.html
       </div>
     </section>
 
-    <section class="section" id="mission">
-      <div class="container split">
-        <div class="section-head" style="margin-bottom:0">
-          <span class="overline">Mission</span>
-          <h2>Dentistry has the power to transform lives</h2>
-          <hr class="rule">
-        </div>
+    <section class="section" id="about">
+      <div class="container split split--invertido">
         <div class="texto-corrido">
-          {{ content_mission }}
+          <span class="overline">About</span>
+          <h2>{{ site_responsavel }}</h2>
+          <hr class="rule">
+          <p>Every patient arrives with a history and a reason. At Fukuoka Dental Clinic, the time spent listening comes before any treatment proposal — because a plan is only a good one when it fits the life of the person receiving it.</p>
+          <!-- TROCAR: parágrafo com formação, especializações e tempo de atuação reais da Dra. -->
+          <p><a class="btn btn--ghost" href="{{ prefixo }}en/about.html">Get to know the clinic</a></p>
         </div>
+        <figure class="figura-emoldurada reveal">
+          <img src="{{ prefixo }}assets/dra-cintia.webp" alt="Dra. Cíntia Fukuoka at Fukuoka Dental Clinic" width="597" height="720" loading="lazy" decoding="async">
+        </figure>
       </div>
     </section>
 
@@ -89,19 +92,38 @@ alternate_pt: index.html
       </div>
     </section>
 
-    <section class="section" id="about">
-      <div class="container split split--invertido">
-        <div class="texto-corrido">
-          <span class="overline">About</span>
-          <h2>{{ site_responsavel }}</h2>
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Reviews</span>
+          <h2>Why so many patients trust Fukuoka</h2>
           <hr class="rule">
-          <p>Every patient arrives with a history and a reason. At Fukuoka Dental Clinic, the time spent listening comes before any treatment proposal — because a plan is only a good one when it fits the life of the person receiving it.</p>
-          <!-- TROCAR: parágrafo com formação, especializações e tempo de atuação reais da Dra. -->
-          <p><a class="btn btn--ghost" href="{{ prefixo }}en/about.html">Get to know the clinic</a></p>
         </div>
-        <figure class="figura-emoldurada reveal">
-          <img src="{{ prefixo }}assets/dra-cintia.webp" alt="Dra. Cíntia Fukuoka at Fukuoka Dental Clinic" width="597" height="720" loading="lazy" decoding="async">
-        </figure>
+        {{ avaliacoes_faixa_en }}
+        <p class="centralizado"><a class="btn btn--ghost" href="{{ prefixo }}en/testimonials.html">Read all the reviews</a></p>
+      </div>
+    </section>
+
+    <section class="section faixa-jp">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <span class="overline" lang="ja">日本語対応</span>
+        <h2>Japanese-speaking care</h2>
+        <hr class="rule">
+        <p class="lead">The Japanese community in São Paulo finds care in their own language here, with the technical rigour and courtesy they expect.</p>
+        <p><a class="btn btn--ghost" href="{{ prefixo }}en/japanese-speaking-dentist.html">Learn more</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="mission">
+      <div class="container split">
+        <div class="section-head" style="margin-bottom:0">
+          <span class="overline">Mission</span>
+          <h2>Dentistry has the power to transform lives</h2>
+          <hr class="rule">
+        </div>
+        <div class="texto-corrido">
+          {{ content_mission }}
+        </div>
       </div>
     </section>
 
@@ -124,28 +146,6 @@ alternate_pt: index.html
           <hr class="rule">
         </div>
         {{ content_values }}
-      </div>
-    </section>
-
-    <section class="section" id="reviews">
-      <div class="container">
-        <div class="section-head section-head--center">
-          <span class="overline">Reviews</span>
-          <h2>Why so many patients trust Fukuoka</h2>
-          <hr class="rule">
-        </div>
-        {{ avaliacoes_faixa_en }}
-        <p class="centralizado"><a class="btn btn--ghost" href="{{ prefixo }}en/testimonials.html">Read all the reviews</a></p>
-      </div>
-    </section>
-
-    <section class="section faixa-jp">
-      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
-        <span class="overline" lang="ja">日本語対応</span>
-        <h2>Japanese-speaking care</h2>
-        <hr class="rule">
-        <p class="lead">The Japanese community in São Paulo finds care in their own language here, with the technical rigour and courtesy they expect.</p>
-        <p><a class="btn btn--ghost" href="{{ prefixo }}en/japanese-speaking-dentist.html">Learn more</a></p>
       </div>
     </section>
 

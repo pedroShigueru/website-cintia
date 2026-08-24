@@ -22,16 +22,19 @@ jsonld: <script type="application/ld+json">{"@context":"https://schema.org","@ty
       </div>
     </section>
 
-    <section class="section" id="missao">
-      <div class="container split">
-        <div class="section-head" style="margin-bottom:0">
-          <span class="overline">Missão</span>
-          <h2>A odontologia tem o poder de transformar vidas</h2>
-          <hr class="rule">
-        </div>
+    <section class="section" id="sobre">
+      <div class="container split split--invertido">
         <div class="texto-corrido">
-          {{ content_missao }}
+          <span class="overline">Sobre</span>
+          <h2>{{ site_responsavel }}</h2>
+          <hr class="rule">
+          <p>Cada paciente chega com uma história e um motivo. Na Fukuoka Dental Clinic, o tempo dedicado a ouvir vem antes de qualquer proposta de tratamento — porque o plano só é bom quando cabe na vida de quem o recebe.</p>
+          <!-- TROCAR: parágrafo com formação, especializações e tempo de atuação reais da Dra. -->
+          <p><a class="btn btn--ghost" href="sobre.html">Conhecer a clínica</a></p>
         </div>
+        <figure class="figura-emoldurada reveal">
+          <img src="assets/dra-cintia.webp" alt="Dra. Cíntia Fukuoka na Fukuoka Dental Clinic" width="597" height="720" loading="lazy" decoding="async">
+        </figure>
       </div>
     </section>
 
@@ -88,19 +91,38 @@ jsonld: <script type="application/ld+json">{"@context":"https://schema.org","@ty
       </div>
     </section>
 
-    <section class="section" id="sobre">
-      <div class="container split split--invertido">
-        <div class="texto-corrido">
-          <span class="overline">Sobre</span>
-          <h2>{{ site_responsavel }}</h2>
+    <section class="section" id="depoimentos">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="overline">Avaliações</span>
+          <h2>Veja por que tantos pacientes confiam na Fukuoka</h2>
           <hr class="rule">
-          <p>Cada paciente chega com uma história e um motivo. Na Fukuoka Dental Clinic, o tempo dedicado a ouvir vem antes de qualquer proposta de tratamento — porque o plano só é bom quando cabe na vida de quem o recebe.</p>
-          <!-- TROCAR: parágrafo com formação, especializações e tempo de atuação reais da Dra. -->
-          <p><a class="btn btn--ghost" href="sobre.html">Conhecer a clínica</a></p>
         </div>
-        <figure class="figura-emoldurada reveal">
-          <img src="assets/dra-cintia.webp" alt="Dra. Cíntia Fukuoka na Fukuoka Dental Clinic" width="597" height="720" loading="lazy" decoding="async">
-        </figure>
+        {{ avaliacoes_faixa }}
+        <p class="centralizado"><a class="btn btn--ghost" href="depoimentos.html">Ver todos os depoimentos</a></p>
+      </div>
+    </section>
+
+    <section class="section faixa-jp">
+      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
+        <span class="overline" lang="ja">日本語対応</span>
+        <h2>Atendimento em japonês</h2>
+        <hr class="rule">
+        <p class="lead">A comunidade japonesa em São Paulo encontra aqui atendimento na própria língua, com o rigor técnico e a cortesia que espera.</p>
+        <p><a class="btn btn--ghost" href="atendimento-em-japones.html">Saiba mais</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="missao">
+      <div class="container split">
+        <div class="section-head" style="margin-bottom:0">
+          <span class="overline">Missão</span>
+          <h2>A odontologia tem o poder de transformar vidas</h2>
+          <hr class="rule">
+        </div>
+        <div class="texto-corrido">
+          {{ content_missao }}
+        </div>
       </div>
     </section>
 
@@ -123,28 +145,6 @@ jsonld: <script type="application/ld+json">{"@context":"https://schema.org","@ty
           <hr class="rule">
         </div>
         {{ content_valores }}
-      </div>
-    </section>
-
-    <section class="section" id="depoimentos">
-      <div class="container">
-        <div class="section-head section-head--center">
-          <span class="overline">Avaliações</span>
-          <h2>Veja por que tantos pacientes confiam na Fukuoka</h2>
-          <hr class="rule">
-        </div>
-        {{ avaliacoes_faixa }}
-        <p class="centralizado"><a class="btn btn--ghost" href="depoimentos.html">Ver todos os depoimentos</a></p>
-      </div>
-    </section>
-
-    <section class="section faixa-jp">
-      <div class="container container--narrow section-head section-head--center" style="margin-bottom:0">
-        <span class="overline" lang="ja">日本語対応</span>
-        <h2>Atendimento em japonês</h2>
-        <hr class="rule">
-        <p class="lead">A comunidade japonesa em São Paulo encontra aqui atendimento na própria língua, com o rigor técnico e a cortesia que espera.</p>
-        <p><a class="btn btn--ghost" href="atendimento-em-japones.html">Saiba mais</a></p>
       </div>
     </section>
 
