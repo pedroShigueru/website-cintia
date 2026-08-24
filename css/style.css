@@ -36,7 +36,10 @@ body {
   font-size: 1.0625rem;
   -webkit-font-smoothing: antialiased;
 }
-img, video { max-width: 100%; display: block; }
+/* height: auto e obrigatorio: os atributos width/height do HTML viram
+   hint de altura fixa, e sem isso a foto estica quando o CSS define
+   so a largura. */
+img, video { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
 button, input, select { font: inherit; }
@@ -324,9 +327,9 @@ p + p { margin-top: 1.25em; }
 .hero__media img {
   width: 100%; height: clamp(28rem, 70vh, 44rem);
   /* A foto e 3:2 e o hero e panoramico: um terco da altura fica de fora.
-     75% escolhe o terco de baixo, com as maos, o instrumento e o rosto
-     dela em quadro. Acima disso o corte come os olhos. */
-  object-fit: cover; object-position: 50% 75%;
+     50% e o corte do meio: apara o topo da touca, mas traz as maos
+     trabalhando. Em 75% o quadro fica pesado demais. */
+  object-fit: cover; object-position: 50% 50%;
 }
 .hero::after {
   content: ""; grid-area: 1/1;
